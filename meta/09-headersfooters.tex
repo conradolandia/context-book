@@ -1,0 +1,106 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% formato de encabezados, pies y cornisas
+
+% Autores de capitulo
+\def\SectionAuthor{\dosingleempty\doSectionAuthor}
+\def\doSectionAuthor[#1]#2{%
+  \start\switchtobodyfont[10pt]%
+  \doifsomethingelse{#1}
+    {\emph{#2}\crlf\switchtobodyfont[8pt] #1}
+    {\emph{#2}}
+  \stop\par%
+}
+
+% comando para numeros de capitulo terminados en punto {.}
+\def\chapterNumber#1{#1.}
+
+\definestartstop[autores][before={\startalignment[flushright]}, after={\stopalignment}]
+
+% capitulos no numerados pero que salen en la ToC
+\definehead[sinnumerar][chapter]
+\setuphead[sinnumerar][incrementnumber=list]
+
+% configuracion general para seccionado
+\setuphead[
+  section,
+  subsection,
+  subsubsection,
+  subsubsubsection,
+  subsubsubsubsection,
+][
+  align={flushleft,nothyphenated,verytolerant,stretch},
+  number=no,
+]
+
+% Estilo de capítulo
+\startsetups[chapter:before]
+  \page
+  \doifoddpageelse
+    {}
+    {\page[yes,header,footer,right]}
+\stopsetups
+
+\startsetups[chapter:after]
+  \blank[line]
+  \startautores
+  \SectionAuthor{\structureuservariable{autores}}
+  \stopautores
+  \blank[6*line]
+\stopsetups
+
+% Makeup para partes
+\definemakeup
+  [part]
+  [align=middle,
+  pagestate=start]
+
+% Setuphead(s) para cap., sec., etc.
+\setuphead[part]
+          [placehead=yes,
+          beforesection=\directsetup{chapter:before},
+          number=no,
+          align={flushright,nothyphenated,verytolerant,stretch},
+          style={\bfd},
+          deeptextcommand={\versalita},
+          header=empty,
+          before=\startpartmakeup,
+          after=\stoppartmakeup]
+
+\setuphead[chapter]
+          [align={flushright,nothyphenated,verytolerant,stretch},
+          beforesection=\directsetup{chapter:before},
+          number=yes,
+          style=\bfb,
+          header=empty,
+          before={\dontleavehmode\blank[5pt]},
+          deepnumbercommand={\chapterNumber},
+          after=\directsetup{chapter:after}]
+
+\setuphead[sinnumerar,title]
+          [after={\blank[8*line]}]
+
+\setuphead[section]
+          [style={\bfa}]
+
+\setuphead[subsection]
+          [style=boldslanted]
+
+\setuphead[subsubsection]
+          [style=,deeptextcommand={\versalita}]
+
+\setuphead[subsubsubsection]
+          [style=slanted]
+
+\setuphead[subsubsubsubsection]
+          [style=italic]
+
+\setuppagenumbering[alternative=doublesided,location=]
+
+\defineframed[footers]
+[frame=off,roffset=4pt,loffset=4pt,toffset=0pt,boffset=0pt,strut=global,height=12pt,width=fit]
+
+\define\lfoot{{\footers[rightframe=on,loffset=-4pt,roffset=3pt]{\small\osf{\pagenumber}}}{\expanded{\footers[leftframe=on]{\small\grisoscuro{\getvariable{document}{title}}}}}}
+\define\rfoot{{\expanded{\footers[rightframe=on]{\small\grisoscuro{\getmarking[chapter]}}}}{\footers[leftframe=on,loffset=2pt,roffset=-2pt]{\small\osf{\pagenumber}}}}
+
+\setupheadertexts[][][][]
+\setupfootertexts[][\rfoot][\lfoot][]
+

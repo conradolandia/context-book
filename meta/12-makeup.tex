@@ -1,0 +1,50 @@
+%%%%%%%%%%%% makeup %%%%%%%%%%%%%%%%%%%%%%%
+\definelayout [antetitulo]
+              [topspace=0.5in]
+
+\definemakeup [antetitulo]
+              [align={flushright,nothyphenated,verytolerant},
+               doublesided=no,
+               page=right,
+               top=,
+               headerstate=empty,
+               footerstate=empty,
+               pagestate=start]
+
+\definelayout [portadilla]
+              [header=\zeropoint,
+               footer=\zeropoint,
+               topspace=1in]
+
+\definemakeup [portadilla]
+              [align={flushright,nothyphenated,verytolerant},
+               doublesided=no,
+               page=right,
+               headerstate=empty,
+               footerstate=empty,
+               pagestate=start]
+
+\definemakeup [legal]
+              [doublesided=no,
+               page=left,
+               headerstate=empty,
+               footerstate=empty,
+               top=,
+               pagestate=start]
+
+\definemakeup [colofon]
+              [align=center,
+               doublesided=no,
+               color=oscuro,
+               page=left,
+               headerstate=empty,
+               footerstate=empty]
+
+\definemakeup [dedicatoria]
+              [align={flushright,nothyphenated,verytolerant},
+               doublesided=no,
+               page=right,
+               style={\italic},
+               headerstate=empty,
+               footerstate=empty,
+               pagestate=start]

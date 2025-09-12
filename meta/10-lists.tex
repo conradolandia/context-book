@@ -1,0 +1,28 @@
+ \define[1]\micabeza{#1~}
+
+\definedescription[description]
+                  [headstyle=bold,
+                  style=normal,
+                  width=broad,
+                  distance=none,
+                  alternative=hanging,
+                  headcommand={\micabeza},
+                  margin=2em]
+
+\setupitemize[autointro,itemalign=left,distance=.5em]
+
+\define[1]\FNo{{\osf{#1}.}}
+
+\setupnote
+   [footnote]
+   [width=\textwidth]
+
+\setupnotation[footnote]
+   [align={flushleft,nothyphenated,verytolerant},
+   numbercommand=\FNo] % footnote text
+
+\defineitemgroup[enumerate]
+\setupenumerate[each][fit][itemalign=left,distance=.5em,style={\feature[+][default:tnum]}]
+
+\defineitemgroup[bibliografia]
+\setupbibliografia[each][n,loose][symalign={left},distance={0.5em},align={right,nothyphenated},left={[},right={]},stopper=,inbetween={\blank[0.5em]}]

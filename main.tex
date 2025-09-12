@@ -1,0 +1,77 @@
+% Plantilla para libros de la Editorial Javeriana
+% Diseño y desarrollo: Andrés Conrado Montoya Acosta
+% andi@sesentaycuatro.com
+% Creado con ConTeXt (https://wiki.contextgarden.net/)
+% Build mode: LMTX
+%\usemodule[lua-widow-control]
+
+\def\fecha{\date[][month,{~de~},year]}
+\def\Autores{{Félix Borrero Borrero}}
+\def\cargo{editor académico}
+
+\def\autoresListaV{\commalistsentence[\Autores][{\crlf},{\crlf}]\par}
+\def\autoresListaH{\commalistsentence[\Autores][{,\space},{,\space y \space}]}
+
+\def\generateDOI#1{\useURL[doi][https://doi.org/10.11144/Javeriana.#1][][https://doi.org/10.11144/\crlf Javeriana.#1]\from[doi]}
+
+\setvariables[document]
+    [
+      titulouno={Anatomía de la mano},
+      titulodos={},
+      tituloautores={\cargo},
+      title={\getvariable{document}{titulouno}\space\getvariable{document}{titulodos}},
+      isbn={\corregir{000-000-000-000-0}},
+      isbne={\corregir{000-000-000-000-0}},
+      doi={\corregir{\generateDOI{9789587818437}}},
+      ejemplares={\corregir{300}},
+      impresores={\corregir{\versalita{DGP} Editores \versalita{S.A.S.}}},
+      fecha={\corregir{\fecha}},
+    ]
+
+\input meta/01-lang
+\input meta/02-color
+\input meta/03-type
+\input meta/04-hyperlinks
+\input meta/05-config
+\input meta/06-layout
+\input meta/07-pdfconf
+\input meta/08-frames
+\input meta/09-headersfooters
+\input meta/10-lists
+\input meta/11-floats
+\input meta/12-makeup
+\input meta/13-toc
+
+%%%%%%%%%%%% starttext %%%%%%%%%%%%%%
+
+\starttext
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PORTADILLA
+
+\input meta/portadilla
+\input meta/legal
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TOC
+
+\startfrontmatter
+
+\completecontent[criterium=all]
+
+%\starttitle[title={Figuras}]
+%\placefiguras
+%\stoptitle
+
+%\completelistoftables[alternative=c]
+
+\stopfrontmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BODY
+
+\startbodymatter
+
+\input include/contenido/contenido.tex
+
+\input meta/colofon
+
+\stopbodymatter
+\stoptext

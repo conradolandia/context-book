@@ -1,0 +1,63 @@
+% usar italica verdadera para em, y corregir itálicas
+\setupbodyfontenvironment[default][em=italic]
+\setupitaliccorrection[global,always]
+\definefontfeature[mathextra][italicwidths=yes]
+
+\definefontfeature  [default][default]
+                    [script=latn,
+                    protrusion=punctuation,
+                    itlc=yes,
+                    textitalics=yes,
+                    kern=yes,
+                    liga=yes,
+                    case=yes]
+
+\definefontfeature  [smallcaps][smallcaps]
+                    [smcp=yes,
+                    cpsp=yes,
+                    c2sc=yes]
+
+\definefontfeature [osf][default][onum=yes]
+
+\loadtypescriptfile[erewhon]
+\setupbodyfont[erewhon,11pt]
+
+\setupalign[hz,hanging,tolerant]
+\setupcapitals[sc=yes]
+
+\setupwhitespace[medium]
+
+\setupindenting[no]
+
+%\setupinterlinespace[big]
+
+\define[1]\versalita{{\feature[+][smallcaps]\kerncharacters[0.03]{#1}}}
+\define[1]\osf{{\feature[+][osf]{#1}}}
+\define[1]\tabular{{\feature[+][tabularnumbers] #1}}
+\define[1]\uhy{\unhyphenated{#1}}
+
+% highlights semanticos
+\definehighlight[emph][style={\em}]
+\definehighlight[strong][style={\bf}]
+\definehighlight[bemph][style={\bf\em}]
+
+% Blockquotes
+\setupdelimitedtext[blockquote]
+  [style={\switchtobodyfont[10pt]}]
+
+\define[1]\apretar{\kerncharacters[-0.01]{#1}}
+\define[1]\apretarmas{\kerncharacters[-0.02]{#1}}
+\define[1]\apretarmucho{\kerncharacters[-0.03]{#1}}
+
+% super y subscritps
+%\setuplow[style=\txx,distance=\zeropoint,down=.66\exheight]
+%\setuphigh[style=\txx,distance=\zeropoint,up=.66\exheight]
+
+% Tachaduras
+%\usemodule[tikz]
+%\def\strike#1{\tikz[baseline=(c.base)]{%
+%    \node[inner sep=0pt] (c) {#1};
+%    \draw (c.south west) -- (c.north east);
+%  }%
+%}
+
