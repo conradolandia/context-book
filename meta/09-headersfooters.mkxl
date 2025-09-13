@@ -42,7 +42,7 @@
 \startsetups[chapter:after]
   \blank[line]
   \startautores
-  \SectionAuthor{\structureuservariable{autores}}
+  \SectionAuthor[\structureuservariable{afiliacion}]{\commalistsentence[\structureuservariable{autores}][{,\space},{\space y~}]}
   \stopautores
   \blank[6*line]
 \stopsetups
@@ -58,7 +58,7 @@
           [placehead=yes,
           beforesection=\directsetup{chapter:before},
           number=no,
-          align={flushright,nothyphenated,verytolerant,stretch},
+          align={flushright,nothyphenated,verytolerant},
           style={\bfd},
           deeptextcommand={\versalita},
           header=empty,
@@ -66,12 +66,13 @@
           after=\stoppartmakeup]
 
 \setuphead[chapter]
-          [align={flushright,nothyphenated,verytolerant,stretch},
+          [align={flushright,nothyphenated,verytolerant},
           beforesection=\directsetup{chapter:before},
           number=yes,
           style=\bfb,
           header=empty,
-          before={\dontleavehmode\blank[5pt]},
+          textwidth=0.8\textwidth,
+          before={\dontleavehmode\blank[5pt]\hfill},
           deepnumbercommand={\chapterNumber},
           after=\directsetup{chapter:after}]
 
@@ -103,4 +104,3 @@
 
 \setupheadertexts[][][][]
 \setupfootertexts[][\rfoot][\lfoot][]
-

@@ -7,10 +7,10 @@
   author={\autoresListaH},
   color=negro,
   contrastcolor=negro]
-
+\enabledirectives[hyphenators.urls.packslashes] % this avoids consecutive slashes each in a different line 
 \sethyphenatedurlnormal{=?&}
 \sethyphenatedurlbefore{}
-\sethyphenatedurlafter{_:/?;.,=-&}
+\sethyphenatedurlafter{_:/;.,-}
 
 \placebookmarks[chapter, section, subsection, subsubsection, subsubsubsection, subsubsubsubsection][chapter, section]
 \setupinteractionscreen[option=bookmark]

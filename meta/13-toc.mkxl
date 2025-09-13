@@ -1,6 +1,8 @@
 %% Añadir autores a la lista TOC
 %% Se agregan autores como un par adicional de corchetes en el título, ejemplo:
 %% \startsection[title={Something}][autores={{John Smith, MD},{Micke Stronberg, MD},{Uma Thurman, MD}}]
+\newdimen\SectionTocEntryWidth
+\SectionTocEntryWidth=0.6cm
 \define[1]\SectionTocEntry{
   #1
   \doifnot{\rawstructurelistuservariable{autores}}
@@ -10,14 +12,14 @@
       \start
       \setupalign[flushleft,nothyphenated,verytolerant]
       \switchtobodyfont[9pt]
-      \commalistsentence[\rawstructurelistuservariable{autores}][{,\space},{ y~}]
+      \hskip\SectionTocEntryWidth\commalistsentence[\rawstructurelistuservariable{autores}][{,\space},{\space y~}]
       \stop
     }
 }
 
 \setupcombinedlist[content][list={chapter,sinnumerar},alternative=c]
-%\setuplist[part][textstyle={bold},textcommand={\versalita},before={\blank[2*big]},after={\blank[2*big]}]
-\setuplist[chapter][after=\SectionTocEntry,stopper={.},width={1em}]
+\setuplist[part][textstyle={bold},textcommand={\versalita},before={\blank[2*big]},after={\blank[2*big]}]
+\setuplist[chapter][after=\SectionTocEntry,stopper={.},width={\SectionTocEntryWidth}]
 
 \definecombinedlist[figuras][figure,rightfigure,leftfigure][alternative=c]
 
