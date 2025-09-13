@@ -1,0 +1,7 @@
+
+\startchapter[title={Aparato extensor de la muñeca, la mano y los dedos}]
+    [autores={{Dr.~Carlos Rueda},{Dr.~Juan Rios},{Dr.~Julio Sandoval}},afiliacion={Universidad de los Andes}]
+
+El pulgar es estudiado en un capítulo aparte. \input cervantes-es\par
+
+\stopchapter

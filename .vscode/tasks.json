@@ -9,7 +9,7 @@
             "command": "zsh",
             "args": [
                 "-c",
-                "source ~/.zshrc && /home/andi/Apps/lmtx/tex/texmf-linux-64/bin/context main.tex",
+                "source ~/.zshrc && /home/andi/Apps/lmtx/tex/texmf-linux-64/bin/context main.mkxl",
             ],
             "group": {
                 "kind": "build",

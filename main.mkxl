@@ -28,19 +28,19 @@
       fecha={\corregir{\fecha}},
     ]
 
-\input meta/01-lang
-\input meta/02-color
-\input meta/03-type
-\input meta/04-hyperlinks
-\input meta/05-config
-\input meta/06-layout
-\input meta/07-pdfconf
-\input meta/08-frames
-\input meta/09-headersfooters
-\input meta/10-lists
-\input meta/11-floats
-\input meta/12-makeup
-\input meta/13-toc
+\input meta/01-lang.lmtx
+\input meta/02-color.lmtx
+\input meta/03-type.lmtx
+\input meta/04-hyperlinks.lmtx
+\input meta/05-config.lmtx
+\input meta/06-layout.lmtx
+\input meta/07-pdfconf.lmtx
+\input meta/08-frames.lmtx
+\input meta/09-headersfooters.lmtx
+\input meta/10-lists.lmtx
+\input meta/11-floats.lmtx
+\input meta/12-makeup.lmtx
+\input meta/13-toc.lmtx
 
 %%%%%%%%%%%% starttext %%%%%%%%%%%%%%
 
@@ -48,8 +48,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PORTADILLA
 
-\input meta/portadilla
-\input meta/legal
+\input meta/portadilla.lmtx
+\input meta/legal.lmtx
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TOC
 
@@ -69,9 +69,9 @@
 
 \startbodymatter
 
-\input include/contenido/contenido.tex
+\input include/contenido/contenido.lmtx
 
-\input meta/colofon
+\input meta/colofon.lmtx
 
 \stopbodymatter
 \stoptext
