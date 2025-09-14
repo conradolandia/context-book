@@ -7,7 +7,9 @@
   author={\autoresListaH},
   color=negro,
   contrastcolor=negro]
-\enabledirectives[hyphenators.urls.packslashes] % this avoids consecutive slashes each in a different line 
+
+% this avoids consecutive slashes each in a different line 
+\enabledirectives[hyphenators.urls.packslashes] 
 \sethyphenatedurlnormal{=?&}
 \sethyphenatedurlbefore{}
 \sethyphenatedurlafter{_:/;.,-}
@@ -15,6 +17,3 @@
 \placebookmarks[chapter, section, subsection, subsubsection, subsubsubsection, subsubsubsubsection][chapter, section]
 \setupinteractionscreen[option=bookmark]
 \setuptagging[state=start]
-
-\unexpanded\def\href#1{\bgroup\startasciimode\goto{\hyphenatedurl{#1}}[url(#1)]\stopasciimode\egroup}
-\unexpanded\define[2]\texthref{\bgroup\startasciimode\goto{#1}[url(#2)]\stopasciimode\egroup}

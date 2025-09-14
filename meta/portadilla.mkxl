@@ -1,6 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PORTADILLA
 \startmakeup[antetitulo]
-  \start\bf\raggedleft\dontleavehmode\switchtobodyfont[14pt]\getvariable{document}{titulouno}\space\getvariable{document}{titulodos}\stop
+  \start\bf\raggedleft\dontleavehmode\switchtobodyfont[14pt]\Titulo\crlf\Subtitulo\stop
 \stopmakeup
 
 \page[yes,empty,right]
@@ -10,23 +10,22 @@
 
 \start
 \dontleavehmode
-\bf\switchtobodyfont[20pt]
-\doifnot{\getvariable{document}{titulouno}}
-{\getvariable{document}{title}}
-{\getvariable{document}{titulouno}\doifsomething{\getvariable{document}{titulodos}}\crlf\getvariable{document}{titulodos}}
+\doifnot{\documentvariable{titulo}}
+{}
+{\bf\switchtobodyfont[20pt]\Titulo}
 
 \blank[small]
 
-\switchtobodyfont[16pt]\grisoscuro{\getvariable{document}{subtitle}}\stop
-
-\blank[3cm]
+\doifnot{\documentvariable{subtitulo}}
+{}
+{\switchtobodyfont[16pt]\grisoscuro{\Subtitulo}\stop\par\blank[3cm]}
 
 \start
 \switchtobodyfont[12pt]
 \grismedio{\versalita{\autoresListaV}}
-\doifnot{\getvariable{document}{tituloautores}}
+\doifnot{\documentvariable{roles}}
 {}
-{\small\grisoscuro{\getvariable{document}{tituloautores}}}
+{\small\grisoscuro\Word{\Roles}}
 \stop
 
 \vfill

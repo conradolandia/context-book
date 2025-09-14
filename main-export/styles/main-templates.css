@@ -1,0 +1,172 @@
+/* template for file main */
+
+@namespace context url('http://www.contextgarden.net/context/export') ;
+
+
+/* element="construct" detail="autores" chain="" */
+
+construct[detail=autores],
+div.construct.autores {
+    display: inline ;
+}
+
+/* element="division" detail="bodypart" chain="" */
+
+division[detail=bodypart],
+div.division.bodypart {
+    display: block ;
+}
+
+/* element="division" detail="frontpart" chain="" */
+
+division[detail=frontpart],
+div.division.frontpart {
+    display: block ;
+}
+
+/* element="document" detail="" chain="" */
+
+document,
+div.document {
+    display: block ;
+}
+
+/* element="highlight" detail="corregir" chain="" */
+
+highlight[detail=corregir],
+div.highlight.corregir {
+    display: inline ;
+}
+
+/* element="highlight" detail="emph" chain="" */
+
+highlight[detail=emph],
+div.highlight.emph {
+    display: inline ;
+}
+
+/* element="highlight" detail="grismedio" chain="" */
+
+highlight[detail=grismedio],
+div.highlight.grismedio {
+    display: inline ;
+}
+
+/* element="highlight" detail="grisoscuro" chain="" */
+
+highlight[detail=grisoscuro],
+div.highlight.grisoscuro {
+    display: inline ;
+}
+
+/* element="image" detail="" chain="" */
+
+image,
+div.image {
+    display: inline ;
+}
+
+/* element="link" detail="" chain="" */
+
+link,
+div.link {
+    display: inline ;
+}
+
+/* element="list" detail="" chain="" */
+
+list,
+div.list {
+    display: block ;
+}
+
+/* element="listcontent" detail="" chain="" */
+
+listcontent,
+div.listcontent {
+    display: inline ;
+}
+
+/* element="listitem" detail="chapter" chain="" */
+
+listitem[detail=chapter],
+div.listitem.chapter {
+    display: block ;
+}
+
+/* element="listpage" detail="" chain="" */
+
+listpage,
+div.listpage {
+    display: inline ;
+}
+
+/* element="listtag" detail="" chain="" */
+
+listtag,
+div.listtag {
+    display: inline ;
+}
+
+/* element="section" detail="chapter" chain="chapter" */
+
+section[detail=chapter],
+div.section.chapter {
+    display: block ;
+}
+
+/* element="section" detail="title" chain="title" */
+
+section[detail=title],
+div.section.title {
+    display: block ;
+}
+
+/* element="sectioncaption" detail="" chain="" */
+
+sectioncaption,
+div.sectioncaption {
+    display: block ;
+}
+
+/* element="sectioncontent" detail="" chain="" */
+
+sectioncontent,
+div.sectioncontent {
+    display: block ;
+}
+
+/* element="sectionnumber" detail="" chain="" */
+
+sectionnumber,
+div.sectionnumber {
+    display: inline ;
+}
+
+/* element="sectiontitle" detail="" chain="" */
+
+sectiontitle,
+div.sectiontitle {
+    display: inline ;
+}
+
+/* element="table" detail="" chain="" */
+
+table,
+div.table {
+    display: block ;
+}
+
+/* element="tablecell" detail="" chain="" */
+
+tablecell,
+div.tablecell {
+    display: inline ;
+}
+
+/* element="tablerow" detail="" chain="" */
+
+tablerow,
+div.tablerow {
+    display: block ;
+}

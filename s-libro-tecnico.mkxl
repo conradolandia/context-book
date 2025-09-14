@@ -1,0 +1,610 @@
+%C Módulo estilístico para libros técnicos
+%C Copyright (c) 2025 Andrés Conrado Montoya Acosta (github.com/conradolandia)
+%C andi@sesentaycuatro.com | sesentaycuatro.com
+%C Creado con ConTeXt LMTX (https://wiki.contextgarden.net/)
+%C Versión: 1.0.0
+%C Licencia: MIT
+
+\startmodule[libro-tecnico]
+
+% Variables generales para el documento
+\defineexpandable\Titulo{\documentvariable{titulo}}
+\defineexpandable\Subtitulo{\documentvariable{subtitulo}}
+\defineexpandable\TituloCompleto{\Titulo\space\Subtitulo}
+\defineexpandable\Autores{\documentvariable{autores}}
+\defineexpandable\Roles{\documentvariable{roles}}
+\defineexpandable\Fecha{\documentvariable{fecha}}
+\defineexpandable\Institucion{\documentvariable{institucion}}
+\defineexpandable\Editorial{\documentvariable{editorial}}
+\defineexpandable\Isbn{\documentvariable{isbn}}
+\defineexpandable\Isbne{\documentvariable{isbne}}
+\defineexpandable\Doi{\documentvariable{doi}}
+\defineexpandable\Ejemplares{\documentvariable{ejemplares}}
+\defineexpandable\Impresores{\documentvariable{impresores}}
+\defineexpandable\Version{\documentvariable{version}}
+\defineexpandable\Licencia{\documentvariable{licencia}}
+\defineexpandable\Copyright{\copyright\documentvariable{copyright}}
+\defineexpandable\Layout{\documentvariable{layout}}
+
+% Listas de autores
+\define\autoresListaV{\commalistsentence[\Autores][{\crlf},{\crlf}]\par}
+\define\autoresListaH{\commalistsentence[\Autores][{,\space},{,\space y \space}]}
+
+% Macros para hyperlinks
+\define[1]\href{\bgroup\startasciimode\goto{\hyphenatedurl{#1}}[url(#1)]\stopasciimode\egroup}
+\define[2]\texthref{\bgroup\startasciimode\goto{#1}[url(#2)]\stopasciimode\egroup}
+
+% Generación de DOI
+\defineexpandable\generateDOI{\href{https://doi.org/10.11144/Javeriana.\Doi}}
+
+% Colores %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usecolors[crayola]
+
+\definecolor[blanco][white]
+\definecolor[negro][black]
+\definecolor[rojo][darkred]
+
+% grises
+\definecolor[casiblanco][s=0.98]
+\definecolor[grismuymuyclaro][s=0.94]
+\definecolor[grismuyclaro][s=0.8]
+\definecolor[grisclaro][s=0.7]
+\definecolor[grismedio][s=0.5]
+\definecolor[grisoscuro][s=0.3]
+\definecolor[casinegro][s=0.03]
+
+% usos semanticos
+\definehighlight[casiblanco][color=casiblanco]
+\definehighlight[grismuymuyclaro][color=grismuymuyclaro]
+\definehighlight[grismuyclaro][color=grismuyclaro]
+\definehighlight[grisclaro][color=grisclaro]
+\definehighlight[grismedio][color=grismedio]
+\definehighlight[grisoscuro][color=grisoscuro]
+\definehighlight[casinegro][color=casinegro]
+
+\definehighlight[blanco][color=blanco]
+\definehighlight[negro][color=negro]
+\definehighlight[blanco][color=blanco]
+\definehighlight[rojo][color=rojo]
+
+\definehighlight[corregir][color=Magenta]
+
+\setupcolors[textcolor=negro]
+
+% Tipografía %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Font features
+\definefontfeature[default][default][
+    protrusion=punctuation,
+    textitalics=yes,
+    case=yes,
+]
+
+\definefontfeature[smallcaps][smallcaps][
+    cpsp=yes,
+    c2sc=yes,
+]
+
+\definefontfeature[osf][default][onum=yes]
+\definefontfeature[mathextra][italicwidths=yes]
+
+% Ajustes para itálicas y otros
+\setupbodyfontenvironment[default][em=italic]
+\setupitaliccorrection[global,always]
+
+% Fuente principal
+\loadtypescriptfile[erewhon]
+\setupbodyfont[erewhon,11pt]
+
+% Ajustes generales
+\setupalign[hz,hanging,tolerant]
+\setupcapitals[sc=yes]
+
+% Espacios y sangrías
+\setupwhitespace[medium]
+\setupindenting[no]
+
+% Interlineado
+%\setupinterlinespace[big]
+
+% Comandos para formato
+\define[1]\versalita{{\feature[+][smallcaps]\kerncharacters[0.03]{#1}}}
+\define[1]\osf{{\feature[+][osf]{#1}}}
+\define[1]\tabular{{\feature[+][tabularnumbers] #1}}
+\define[1]\uhy{\unhyphenated{#1}}
+
+% highlights semanticos
+\definehighlight[emph][style={\em}]
+\definehighlight[strong][style={\bf}]
+\definehighlight[bemph][style={\bf\em}]
+
+% Blockquotes
+\setupdelimitedtext[blockquote][style={\switchtobodyfont[10pt]}]
+
+% Comandos para kerning
+\define[1]\apretar{\kerncharacters[-0.01]{#1}}
+\define[1]\apretarmas{\kerncharacters[-0.02]{#1}}
+\define[1]\apretarmucho{\kerncharacters[-0.03]{#1}}
+
+% Hipervínculos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Activar hyperlinks
+\setupinteraction
+  [state=start,
+  style={\tf},
+  title={\getvariable{document}{title}},
+  subtitle={\getvariable{document}{subtitle}},
+  author={\autoresListaH},
+  color=negro,
+  contrastcolor=negro]
+
+% Evitar que dos diagonales consecutivas se dividan en diferentes líneas
+\enabledirectives[hyphenators.urls.packslashes] 
+
+% Configurar partición de palabras en URLs
+\sethyphenatedurlnormal{=?&}
+\sethyphenatedurlbefore{}
+\sethyphenatedurlafter{_:/;.,-}
+
+% Configurar marcadores de libro
+\placebookmarks[chapter, section, subsection, subsubsection, subsubsubsection, subsubsubsubsection][chapter, section]
+\setupinteractionscreen[option=bookmark]
+\setuptagging[state=start]
+
+% Layout %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Configurar tamaño de página
+\definepapersize[libro][width=170mm,height=240mm]
+\setuppapersize[libro][libro]
+
+% Configurar tolerancia
+\setuptolerance[tolerant,stretch]
+
+% Configurar penalidades
+\startsetups[layout:penalidades]
+  \setdefaultpenalties
+  \setpenalties\widowpenalties{2}{100000}
+  \setpenalties\clubpenalties {2}{100000}
+  \setbreakpoints[compound]
+\stopsetups
+
+% Estilo Old Style (mas estricto con dobles guiones, menos con finales)
+\startsetups[layout:oldstyle]
+  \setups[layout:penalidades]
+  \doublehyphendemerits=100000
+  \finalhyphendemerits=50000
+  \adjdemerits=20000
+\stopsetups
+
+% Estilo Estricto (para imprenta)
+\startsetups[layout:estricto]
+  \setups[layout:penalidades]
+  \doublehyphendemerits=50000
+  \finalhyphendemerits=100000
+  \adjdemerits=30000
+\stopsetups
+
+% Configurar layout
+\setuplayout
+  [marking=off,
+  topspace=5mm,
+  height=634pt,
+  backspace=30mm,
+  width=120mm,
+  header=10mm,
+  footer=15mm,
+  headerdistance=5mm,
+  footerdistance=5mm,
+  setups=layout:\Layout]
+
+% Modos de compilación %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definemode[imprenta][keep]
+\definemode[pantalla][keep]
+\definemode[pdfa][keep]
+
+% Configuración de backend (PDF/A) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\startmode[pdfa]
+  \setupbackend[
+    format={pdf/a-1b:2005},
+    profile={USWebCoatedSWOP.icc,AdobeRGB1998.icc,colo-imp-sgrey-v4.icc},
+    intent={ISO uncoated v4 300\letterpercent\space space},
+  ]
+  \setupstructure[state=start,method=auto]
+\stopmode
+
+% Configurar layout para imprenta %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Con marcas de corte y montado en tamaño carta
+\startmode[imprenta]
+  \setuppapersize[libro][letter]
+  \setuplayout[location=middle, marking=on]
+\stopmode
+
+% Configuración de frames %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\defineframed[lateral][
+  frame=off,
+  leftframe=on,
+  framecolor=grisoscuro,
+  foreground=color,
+  foregroundcolor=grismuymuyclaro,
+  rulethickness=2pt,
+  frameoffset=10pt,
+]
+
+\setupframedtexts[
+  width={\makeupwidth},
+  background=color,
+  backgroundcolor=grismuymuyclaro,
+  width=local,
+  framecolor=grisoscuro,
+  foregroundcolor=casinegro,
+  foregroundstyle=small,
+  rulethickness=1pt,
+  frameoffset=0.3em,
+  backgroundoffset=0.3em,
+]
+
+% Formato de encabezados, pies y cornisas %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Autores de capitulo
+\def\SectionAuthor{\dosingleempty\doSectionAuthor}
+\def\doSectionAuthor[#1]#2{%
+  \start\switchtobodyfont[10pt]%
+  \doifsomethingelse{#1}
+    {\emph{#2}\crlf\switchtobodyfont[8pt] #1}
+    {\emph{#2}}
+  \stop\par%
+}
+
+% Macro para números de capitulo terminados en punto {.}
+\def\chapterNumber#1{#1.}
+
+\definestartstop[autores][before={\startalignment[flushright]}, after={\stopalignment}]
+
+% Capitulos no numerados pero que salen en la ToC
+\definehead[sinnumerar][chapter]
+\setuphead[sinnumerar][incrementnumber=list]
+
+% Configuración general para seccionado
+\setuphead[
+  section,
+  subsection,
+  subsubsection,
+  subsubsubsection,
+  subsubsubsubsection,
+][
+  align={flushleft,nothyphenated,verytolerant,stretch},
+  number=no,
+]
+
+% Estilo de capítulo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\startsetups[chapter:before]
+  \page
+  \doifoddpageelse
+    {}
+    {\page[yes,header,footer,right]}
+\stopsetups
+
+\startsetups[chapter:after]
+  \blank[line]
+  \startautores
+  \SectionAuthor[\structureuservariable{afiliacion}]{\commalistsentence[\structureuservariable{autores}][{,\space},{\space y~}]}
+  \stopautores
+  \blank[6*line]
+\stopsetups
+
+% Makeup para partes %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definemakeup
+  [part]
+  [align=middle,
+  pagestate=start]
+
+% Setuphead(s) para cap., sec., etc. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setuphead[part]
+          [placehead=yes,
+          beforesection=\directsetup{chapter:before},
+          number=no,
+          align={flushright,nothyphenated,verytolerant},
+          style={\bfd},
+          deeptextcommand={\versalita},
+          header=empty,
+          before=\startpartmakeup,
+          after=\stoppartmakeup]
+
+\setuphead[chapter]
+          [align={flushright,nothyphenated,verytolerant},
+          beforesection=\directsetup{chapter:before},
+          number=yes,
+          style=\bfb,
+          header=empty,
+          textwidth=0.8\textwidth,
+          before={\dontleavehmode\blank[5pt]\hfill},
+          deepnumbercommand={\chapterNumber},
+          after=\directsetup{chapter:after}]
+
+\setuphead[sinnumerar,title]
+          [after={\blank[8*line]}]
+
+\setuphead[section]
+          [style={\bfa}]
+
+\setuphead[subsection]
+          [style=boldslanted]
+
+\setuphead[subsubsection]
+          [style=,deeptextcommand={\versalita}]
+
+\setuphead[subsubsubsection]
+          [style=slanted]
+
+\setuphead[subsubsubsubsection]
+          [style=italic]
+
+\setuppagenumbering[alternative=doublesided,location=]
+
+% Configuración de pies de página %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\defineframed[footers]
+[frame=off,roffset=4pt,loffset=4pt,toffset=0pt,boffset=0pt,strut=global,height=12pt,width=fit]
+
+\define\lfoot{{\footers[rightframe=on,loffset=-4pt,roffset=3pt]{\small\osf{\pagenumber}}}{\expanded{\footers[leftframe=on]{\small\grisoscuro{\getvariable{document}{title}}}}}}
+\define\rfoot{{\expanded{\footers[rightframe=on]{\small\grisoscuro{\getmarking[chapter]}}}}{\footers[leftframe=on,loffset=2pt,roffset=-2pt]{\small\osf{\pagenumber}}}}
+
+% Activar configuraciones 
+\setupheadertexts[][][][]
+\setupfootertexts[][\rfoot][\lfoot][]
+
+% Listas %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Macro para encabezados de descripciones
+\define[1]\termino{#1~}
+
+% Configuración de descripciones
+\definedescription[description][
+  headstyle=bold,
+  style=normal,
+  width=broad,
+  distance=none,
+  alternative=hanging,
+  headcommand={\termino},
+  margin=2em,
+]
+
+% Configuración de listas
+\setupitemize[itemalign=left,distance=.5em]
+
+% Macro para números de notas al pie
+\define[1]\FNo{{\osf{#1}.}}
+
+% Configuración de notas al pie
+\setupnote
+   [footnote]
+   [width=\textwidth]
+
+% Configuración de anotaciones al pie de página
+\setupnotation[footnote]
+   [align={flushleft,nothyphenated,verytolerant},
+   numbercommand=\FNo] % footnote text
+
+% Configuración de listas enumeradas
+\defineitemgroup[enumerate]
+\setupenumerate[each][fit][itemalign=left,distance=.5em,style={\feature[+][default:tnum]}]
+
+% Bibliografía manual
+\defineitemgroup[bibliografia]
+\setupbibliografia[each][n,loose][symalign={left},distance={0.5em},align={right,nothyphenated},left={[},right={]},stopper=,inbetween={\blank[0.5em]}]
+
+% TDC %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%% Añadir autores a la lista TOC
+%% Se agregan autores como un par adicional de corchetes en el título, ejemplo:
+%% \startsection[title={Something}][autores={{John Smith, MD},{Micke Stronberg, MD},{Uma Thurman, MD}}]
+\newdimen\SectionTocEntryWidth
+\SectionTocEntryWidth=0.6cm
+\define[1]\SectionTocEntry{
+  #1
+  \doifnot{\rawstructurelistuservariable{autores}}
+    {}
+    {
+      \crlf
+      \start
+      \setupalign[flushleft,nothyphenated,verytolerant]
+      \switchtobodyfont[9pt]
+      \hskip\SectionTocEntryWidth\commalistsentence[\rawstructurelistuservariable{autores}][{,\space},{\space y~}]
+      \stop
+    }
+}
+
+\setupcombinedlist[content][list={chapter,sinnumerar},alternative=c]
+\setuplist[part][textstyle={bold},textcommand={\versalita},before={\blank[2*big]},after={\blank[2*big]}]
+\setuplist[chapter][after=\SectionTocEntry,stopper={.},width={\SectionTocEntryWidth}]
+
+\definecombinedlist[figuras][figure,rightfigure,leftfigure][alternative=c]
+
+\startsectionblockenvironment[frontpart]
+\setupfootertexts[][][][]
+\stopsectionblockenvironment
+
+% Flotantes %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Separación de flotantes
+\setuplabeltext[es][continued={ (continuación)}]
+\setupfloatsplitting[conversion=continued]
+
+% Logotipos
+\defineexternalfigure[logotipo][maxwidth=.4\textwidth]
+
+% Ubicación por defecto de flotantes
+\setupfloat[figure,table][default={here}]
+
+% Configuración de títulos de flotantes
+\setupcaptions[
+  style={\small},
+  width=max,
+  prefix=yes,
+  way=bychapter,
+  prefixsegments=chapter,
+  headstyle={\tf},
+  suffixseparator={.},
+  distance={.5em},
+  align={middle,nothyphenated,verytolerant,stretch},
+]
+
+% Configuración de títulos de tablas
+\setupcaption[table][location=top]
+
+% Figuras a la izquierda
+\definefloat[leftfigure][leftfigures][figure]
+\setupcaption[leftfigure][
+  location={left,middle},
+  distance={1em},
+  headseparator={.\hskip-0.5em},
+  align={left,nothyphenated,verytolerant,stretch},
+]
+
+% Tablas a la izquierda
+\definefloat[lefttable][lefttables][table]
+\setupcaption[lefttable][
+  location={left,middle},
+  distance={1em},
+  headseparator={.\hskip-0.5em},
+  align={left,nothyphenated,verytolerant,stretch},
+]
+
+% Figuras a la derecha
+\definefloat[rightfigure][rightfigures][figure]
+\setupcaption[rightfigure][
+  location={right,middle},
+  distance={1em},
+  headseparator={.\hskip-0.5em},
+  align={right,nothyphenated,verytolerant,stretch},
+]
+
+% Tablas a la derecha
+\definefloat[righttable][righttables][table]
+\setupcaption[righttable][
+  location={right,middle},
+  distance={1em},
+  headseparator={.\hskip-0.5em},
+  align={right,nothyphenated,verytolerant,stretch},
+]
+
+% Autores
+\definefloat[autor][autores][figure]
+\setupfloat[autor][sidealign=line]
+\setupcaption[autor][location=none]
+\defineexternalfigure[autor][width=2cm]
+
+% Formatos de referencia
+\definereferenceformat[figura][text={figura~}]
+\definereferenceformat[tabla][text={tabla~}]
+\definereferenceformat[simple][text={}]
+
+% Configuración de tablas %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Configuración de xtables
+\setupxtable[
+  frame=off,
+  rulethickness=0.2pt,
+  framecolor=grismedio,
+  option=stretch,
+  bodyfont=small,
+  foregroundstyle={\tabular},
+]
+
+\setupxtable[head][topframe=on,bottomframe=on,foregroundstyle=bold]
+\setupxtable[body][bottomframe=on]
+\setupxtable[foot][bottomframe=on]
+
+\definextable[simple]
+\setupxtable[simple][frame=off,topframe=off,bottomframe=off]
+
+% Configuración de TABLE
+\setupTABLE[frame=off,style=small]
+\setupTABLE[row][topframe=on,bottomframe=on,style=small,rulethickness=0.3pt]
+\setupTABLE[row][1][style={\small\bf},rulethickness=0.6pt]
+\setupTABLE[row][last][bottomframe=on]
+
+
+% Fuente para tablas y figuras %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\define[1]\fuentent{\start\setupalign[middle,nothyphenated,verytolerant,stretch]\switchtobodyfont[8pt]#1\par\stop}
+\define[1]\fuente{\start\setupalign[middle,nothyphenated,verytolerant,stretch]\switchtobodyfont[8pt]\emph{Fuente:}~#1\par\stop}
+\define[1]\xfuentent{\start\setupalign[middle,nothyphenated,verytolerant,stretch]#1\par\stop}
+\define[1]\xfuente{\start\setupalign[middle,nothyphenated,verytolerant,stretch]\emph{Fuente:}~#1\par\stop}
+\define[1]\fuentefignt{\par\blank[2pt]\start\switchtobodyfont[8pt]#1\par\stop}
+\define[1]\fuentefig{\par\blank[2pt]\start\switchtobodyfont[8pt]\emph{Fuente:}~#1\par\stop}
+
+\def\propia{\fuentefig{elaboración propia.}}
+\def\propiat{\fuente{elaboración propia.}}
+
+% Makeups %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definelayout [antetitulo]
+              [topspace=0.5in]
+
+\definemakeup [antetitulo]
+              [align={flushright,nothyphenated,verytolerant},
+               doublesided=no,
+               page=right,
+               top=,
+               headerstate=empty,
+               footerstate=empty,
+               pagestate=start]
+
+\definelayout [portadilla]
+              [header=\zeropoint,
+               footer=\zeropoint,
+               topspace=1in]
+
+\definemakeup [portadilla]
+              [align={flushright,nothyphenated,verytolerant},
+               doublesided=no,
+               page=right,
+               headerstate=empty,
+               footerstate=empty,
+               pagestate=start]
+
+\definemakeup [legal]
+              [doublesided=no,
+               page=left,
+               headerstate=empty,
+               footerstate=empty,
+               top=,
+               pagestate=start]
+
+\definemakeup [colofon]
+              [align=center,
+               doublesided=no,
+               color=oscuro,
+               page=left,
+               headerstate=empty,
+               footerstate=empty]
+
+\definemakeup [dedicatoria]
+              [align={flushright,nothyphenated,verytolerant},
+               doublesided=no,
+               page=right,
+               style={\italic},
+               headerstate=empty,
+               footerstate=empty,
+               pagestate=start]
+
+% Extras %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Macros para acomodar líneas extra
+\defineexpandable\unamas{\adaptlayout[lines=+1]}
+\defineexpandable\dosmas{\adaptlayout[lines=+2]}
+
+% Reducir salida en consola
+\dontcomplain 
+
+\stopmodule
+\endinput

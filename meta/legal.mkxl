@@ -17,19 +17,19 @@
     \startxcell[width=.45\textwidth]
       Reservados todos los derechos\crlf
       © Pontificia Universidad Javeriana \crlf
-      © \autoresListaH,\space\cargo\crlf
+      © \autoresListaH,\space\Roles\crlf
       © Varios autores
 
       \blank[big]
 
-      Primera edición: \getvariable{document}{fecha}\crlf
-      \versalita{isbn:} (impreso) {\getvariable{document}{isbn}}\crlf
-      \versalita{isbn:} (digital) {\getvariable{document}{isbne}}\crlf
-      \versalita{doi:} {\getvariable{document}{doi}}
+      Primera edición: \Fecha\crlf
+      \versalita{isbn:} (impreso) {\Isbn}\crlf
+      \versalita{isbn:} (digital) {\Isbne}\crlf
+      \versalita{doi:} {\Doi}
 
       \blank[halfline]
 
-      Número de ejemplares: \getvariable{document}{ejemplares}
+      Número de ejemplares: \Ejemplares
 
       \blank[halfline]
 
@@ -67,7 +67,7 @@
       \blank[halfline]
 
       Impresión:\crlf
-      \corregir{\getvariable{document}{impresores}}
+      \corregir{\Impresores}
 
       \blank[2*big]
 
@@ -93,9 +93,9 @@ Técnicas de cirugía de cadera / autores, Luis Fernando Useche Gómez {[}y otro
 
 \totalnumberofpages~páginas ; ilustraciones, Fotografías ; 17 × 24cm.
 
-\versalita{ISBN}: \getvariable{document}{isbn} (impreso)
+\versalita{ISBN}: \Isbn (impreso)
 
-\versalita{ISBN}: \getvariable{document}{isbne} (electrónico)
+\versalita{ISBN}: \Isbne (electrónico)
 
 \blank[big]
 

@@ -1,57 +1,100 @@
-% Plantilla para libros de la Editorial Javeriana
+% Plantilla para libros técnicos de la Editorial Javeriana
 % Diseño y desarrollo: Andrés Conrado Montoya Acosta
 % andi@sesentaycuatro.com
 % Creado con ConTeXt (https://wiki.contextgarden.net/)
-% Build mode: LMTX
-%\usemodule[lua-widow-control]
+% Build mode: mkxl
 
-\def\fecha{\date[][month,{~de~},year]}
-\def\Autores{{Félix Borrero Borrero}}
-\def\cargo{editor académico}
+%\def\Fecha{\date[][month,{~de~},year]}
+%\def\Autores{{Félix Borrero Borrero}}
+%\def\Roles{editor académico}
+%
+%\defineexpandable[1]\href{\bgroup\startasciimode\goto{\hyphenatedurl{#1}}[url(#1)]\stopasciimode\egroup}
+%\defineexpandable[2]\texthref{\bgroup\startasciimode\goto{#1}[url(#2)]\stopasciimode\egroup}
+%\defineexpandable\autoresListaV{\commalistsentence[\Autores][{\crlf},{\crlf}]\par}
+%\defineexpandable\autoresListaH{\commalistsentence[\Autores][{,\space},{,\space y \space}]}
+%
+%\def\generateDOI#1{\useURL[doi][https://doi.org/10.11144/Javeriana.#1][][https://doi.org/10.11144/\crlf Javeriana.#1]\from[doi]}
+%
+%\setvariables[document]
+%    [
+%      titulouno={Anatomía de la mano},
+%      titulodos={},
+%      tituloautores={\Cargo},
+%      title={\getvariable{document}{titulouno}\space\getvariable{document}{titulodos}},
+%      isbn={\corregir{000-000-000-000-0}},
+%      isbne={\corregir{000-000-000-000-0}},
+%      doi={\corregir{\generateDOI{9789587818437}}},
+%      ejemplares={\corregir{300}},
+%      impresores={\corregir{\versalita{DGP} Editores \versalita{S.A.S.}}},
+%      fecha={\corregir{\Fecha}},
+%    ]
+%
+%\input meta/01-lang.mkxl
+%\input meta/02-color.mkxl
+%\input meta/03-type.mkxl
+%\input meta/04-hyperlinks.mkxl
+%\input meta/05-config.mkxl
+%\input meta/06-layout.mkxl
+%\input meta/07-pdfconf.mkxl
+%\input meta/08-frames.mkxl
+%\input meta/09-headersfooters.mkxl
+%\input meta/10-lists.mkxl
+%\input meta/11-floats.mkxl
+%\input meta/12-makeup.mkxl
+%\input meta/13-toc.mkxl
 
-\def\autoresListaV{\commalistsentence[\Autores][{\crlf},{\crlf}]\par}
-\def\autoresListaH{\commalistsentence[\Autores][{,\space},{,\space y \space}]}
+\usepath[]
+\usemodule[libro-tecnico]
 
-\def\generateDOI#1{\useURL[doi][https://doi.org/10.11144/Javeriana.#1][][https://doi.org/10.11144/\crlf Javeriana.#1]\from[doi]}
+% Idioma
+\mainlanguage[es] % Configura lenguaje de elementos de texto autogenerados como "Contenido"
+\language[es] % Cambia reglas de partición de palabras, y reglas tipográficas (comillas, espacio depsues de puntuaciones, ese tipo de cosas)
+\setuplanguage[es][hyphenmin=5] % configura mínimos de particion de palabras
 
-\setvariables[document]
-    [
-      titulouno={Anatomía de la mano},
-      titulodos={},
-      tituloautores={\cargo},
-      title={\getvariable{document}{titulouno}\space\getvariable{document}{titulodos}},
-      isbn={\corregir{000-000-000-000-0}},
-      isbne={\corregir{000-000-000-000-0}},
-      doi={\corregir{\generateDOI{9789587818437}}},
-      ejemplares={\corregir{300}},
-      impresores={\corregir{\versalita{DGP} Editores \versalita{S.A.S.}}},
-      fecha={\corregir{\fecha}},
-    ]
+% usar guiones existentes para partir palabras
+\setbreakpoints[compound]
 
-\input meta/01-lang.lmtx
-\input meta/02-color.lmtx
-\input meta/03-type.lmtx
-\input meta/04-hyperlinks.lmtx
-\input meta/05-config.lmtx
-\input meta/06-layout.lmtx
-\input meta/07-pdfconf.lmtx
-\input meta/08-frames.lmtx
-\input meta/09-headersfooters.lmtx
-\input meta/10-lists.lmtx
-\input meta/11-floats.lmtx
-\input meta/12-makeup.lmtx
-\input meta/13-toc.lmtx
+% Excepciones generales de particion de palabras
+\hyphenation{ar-ticu-lar}
+\hyphenation{ar-ticu-la}
+\hyphenation{ar-ticu-la-res}
+\hyphenation{re-ti-nacu-la-res}
+\hyphenation{pro-ce-dimien-to}
+\hyphenation{ex-tra-ar-ticu-la-res}
+\hyphenation{ar-ticu-la-ción}
+\hyphenation{ar-ticu-la-mien-to}
+\hyphenation{com-par-timien-to}
+\hyphenation{muscu-la-tura}
+\hyphenation{ana-tómi-cos}
+\hyphenation{or-tope-dia}
 
-%%%%%%%%%%%% starttext %%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INICIO DOCUMENTO
 
-\starttext
+\startdocument[
+  titulo={Libro Técnico},
+  subtitulo={Una plantilla para libros técnicos, elaborada en \ConTeXt{} \LMTX},
+  autores={Andrés Conrado Montoya Acosta, Sonia Amparo Rodríguez Rodríguez},
+  roles={autores},
+  institucion={Pontificia Universidad Javeriana},
+  editorial={Editorial Pontificia Universidad Javeriana},
+  isbn={000-000-000-000-0},
+  isbne={000-000-000-000-0},
+  doi={000-000-000-000-0},
+  ejemplares={300},
+  impresores={DGP Editores S.A.S.},
+  fecha={\date[][month,{~de~},year]},
+  version={1.0.0},
+  licencia={MIT},
+  copyright={2025 Andrés Conrado Montoya Acosta},
+  layout={estricto},
+]
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PORTADILLA
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PORTADILLA Y LEGALES
 
-\input meta/portadilla.lmtx
-\input meta/legal.lmtx
+\input meta/portadilla.mkxl
+\input meta/legal.mkxl
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TOC
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TOC Y LISTAS
 
 \startfrontmatter
 
@@ -65,13 +108,13 @@
 
 \stopfrontmatter
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% BODY
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CUERPO
 
 \startbodymatter
 
-\input include/contenido/contenido.lmtx
+\input contenido/contenido.mkxl
 
-\input meta/colofon.lmtx
+\input meta/colofon.mkxl
 
 \stopbodymatter
-\stoptext
+\stopdocument

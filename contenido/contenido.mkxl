@@ -4,4 +4,6 @@
 
 El pulgar es estudiado en un capítulo aparte. \input cervantes-es\par
 
+Una plantilla para libros técnicos, elaborada en \ConTeXt{} \LMTX
+
 \stopchapter
