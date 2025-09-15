@@ -4,69 +4,8 @@
 % Creado con ConTeXt (https://wiki.contextgarden.net/)
 % Build mode: mkxl
 
-%\def\Fecha{\date[][month,{~de~},year]}
-%\def\Autores{{Félix Borrero Borrero}}
-%\def\Roles{editor académico}
-%
-%\defineexpandable[1]\href{\bgroup\startasciimode\goto{\hyphenatedurl{#1}}[url(#1)]\stopasciimode\egroup}
-%\defineexpandable[2]\texthref{\bgroup\startasciimode\goto{#1}[url(#2)]\stopasciimode\egroup}
-%\defineexpandable\autoresListaV{\commalistsentence[\Autores][{\crlf},{\crlf}]\par}
-%\defineexpandable\autoresListaH{\commalistsentence[\Autores][{,\space},{,\space y \space}]}
-%
-%\def\generateDOI#1{\useURL[doi][https://doi.org/10.11144/Javeriana.#1][][https://doi.org/10.11144/\crlf Javeriana.#1]\from[doi]}
-%
-%\setvariables[document]
-%    [
-%      titulouno={Anatomía de la mano},
-%      titulodos={},
-%      tituloautores={\Cargo},
-%      title={\getvariable{document}{titulouno}\space\getvariable{document}{titulodos}},
-%      isbn={\corregir{000-000-000-000-0}},
-%      isbne={\corregir{000-000-000-000-0}},
-%      doi={\corregir{\generateDOI{9789587818437}}},
-%      ejemplares={\corregir{300}},
-%      impresores={\corregir{\versalita{DGP} Editores \versalita{S.A.S.}}},
-%      fecha={\corregir{\Fecha}},
-%    ]
-%
-%\input meta/01-lang.mkxl
-%\input meta/02-color.mkxl
-%\input meta/03-type.mkxl
-%\input meta/04-hyperlinks.mkxl
-%\input meta/05-config.mkxl
-%\input meta/06-layout.mkxl
-%\input meta/07-pdfconf.mkxl
-%\input meta/08-frames.mkxl
-%\input meta/09-headersfooters.mkxl
-%\input meta/10-lists.mkxl
-%\input meta/11-floats.mkxl
-%\input meta/12-makeup.mkxl
-%\input meta/13-toc.mkxl
-
-\usepath[]
+\usepath[contenido]
 \usemodule[libro-tecnico]
-
-% Idioma
-\mainlanguage[es] % Configura lenguaje de elementos de texto autogenerados como "Contenido"
-\language[es] % Cambia reglas de partición de palabras, y reglas tipográficas (comillas, espacio depsues de puntuaciones, ese tipo de cosas)
-\setuplanguage[es][hyphenmin=5] % configura mínimos de particion de palabras
-
-% usar guiones existentes para partir palabras
-\setbreakpoints[compound]
-
-% Excepciones generales de particion de palabras
-\hyphenation{ar-ticu-lar}
-\hyphenation{ar-ticu-la}
-\hyphenation{ar-ticu-la-res}
-\hyphenation{re-ti-nacu-la-res}
-\hyphenation{pro-ce-dimien-to}
-\hyphenation{ex-tra-ar-ticu-la-res}
-\hyphenation{ar-ticu-la-ción}
-\hyphenation{ar-ticu-la-mien-to}
-\hyphenation{com-par-timien-to}
-\hyphenation{muscu-la-tura}
-\hyphenation{ana-tómi-cos}
-\hyphenation{or-tope-dia}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INICIO DOCUMENTO
 
@@ -77,22 +16,25 @@
   roles={autores},
   institucion={Pontificia Universidad Javeriana},
   editorial={Editorial Pontificia Universidad Javeriana},
+  editorialDireccion={Carrera~7.ª~n.º~37-25, oficina~1301 Bogotá,~Edificio~Lutaima},
+  editorialTelefono={320~8320,~ext.~4205},
+  editorialUrl={www.javeriana.edu.co/editorial},
+  editorialEmail={editorialpuj@javeriana.edu.co},
+  biblioteca={Biblioteca Alfonso Borrero Cabal, S.\,J.},
   isbn={000-000-000-000-0},
   isbne={000-000-000-000-0},
   doi={000-000-000-000-0},
   ejemplares={300},
   impresores={DGP Editores S.A.S.},
-  fecha={\date[][month,{~de~},year]},
+  fecha={\currentdate[month,{~de~},year]}, 
   version={1.0.0},
   licencia={MIT},
   copyright={2025 Andrés Conrado Montoya Acosta},
   layout={estricto},
+  logotipoinstitucion={include/logos/puj},
+  logotipofacultad={include/logos/puj_facu},
+  logotipoeditorial={include/logos/eh},
 ]
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% PORTADILLA Y LEGALES
-
-\input meta/portadilla.mkxl
-\input meta/legal.mkxl
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TOC Y LISTAS
 
@@ -112,9 +54,7 @@
 
 \startbodymatter
 
-\input contenido/contenido.mkxl
-
-\input meta/colofon.mkxl
+\input contenido.mkxl
 
 \stopbodymatter
 \stopdocument

@@ -7,10 +7,16 @@
 
 \startmodule[libro-tecnico]
 
+% Modos de compilación %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definemode[pdfa][keep]
+\definemode[imprenta][keep]
+\definemode[pantalla][keep]
+
 % Variables generales para el documento
 \defineexpandable\Titulo{\documentvariable{titulo}}
 \defineexpandable\Subtitulo{\documentvariable{subtitulo}}
-\defineexpandable\TituloCompleto{\Titulo\space\Subtitulo}
+\defineexpandable\TituloCompleto{\Titulo:\space\Subtitulo}
 \defineexpandable\Autores{\documentvariable{autores}}
 \defineexpandable\Roles{\documentvariable{roles}}
 \defineexpandable\Fecha{\documentvariable{fecha}}
@@ -23,12 +29,12 @@
 \defineexpandable\Impresores{\documentvariable{impresores}}
 \defineexpandable\Version{\documentvariable{version}}
 \defineexpandable\Licencia{\documentvariable{licencia}}
-\defineexpandable\Copyright{\copyright\documentvariable{copyright}}
+\defineexpandable\Copyright{©~\documentvariable{copyright}}
 \defineexpandable\Layout{\documentvariable{layout}}
 
 % Listas de autores
-\define\autoresListaV{\commalistsentence[\Autores][{\crlf},{\crlf}]\par}
-\define\autoresListaH{\commalistsentence[\Autores][{,\space},{,\space y \space}]}
+\define\autoresListaV{\commalistsentence[\documentvariable{autores}][{\\},{\\}]\par}
+\define\autoresListaH{\commalistsentence[\documentvariable{autores}][{,\space},{,\space y \space}]}
 
 % Macros para hyperlinks
 \define[1]\href{\bgroup\startasciimode\goto{\hyphenatedurl{#1}}[url(#1)]\stopasciimode\egroup}
@@ -37,24 +43,57 @@
 % Generación de DOI
 \defineexpandable\generateDOI{\href{https://doi.org/10.11144/Javeriana.\Doi}}
 
+% Lenguaje %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Configura lenguaje de elementos de texto autogenerados como "Contenido"
+\mainlanguage[es] 
+
+% Cambia reglas de partición de palabras, y reglas tipográficas 
+% (comillas, espacio depsues de puntuaciones, ese tipo de cosas)
+\language[es] 
+
+% configura mínimos de particion de palabras
+\setuplanguage[es][hyphenmin=5] 
+
+% usar guiones existentes para partir palabras
+\setbreakpoints[compound]
+
+% Excepciones generales de particion de palabras
+\hyphenation{ar-ticu-lar}
+\hyphenation{ar-ticu-la}
+\hyphenation{ar-ticu-la-res}
+\hyphenation{re-ti-nacu-la-res}
+\hyphenation{pro-ce-dimien-to}
+\hyphenation{ex-tra-ar-ticu-la-res}
+\hyphenation{ar-ticu-la-ción}
+\hyphenation{ar-ticu-la-mien-to}
+\hyphenation{com-par-timien-to}
+\hyphenation{muscu-la-tura}
+\hyphenation{ana-tómi-cos}
+\hyphenation{or-tope-dia}
+
 % Colores %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usecolors[crayola]
 
-\definecolor[blanco][white]
-\definecolor[negro][black]
 \definecolor[rojo][darkred]
+\definecolor[negro][black]
+\definecolor[blanco][white]
+\definecolor[corregir][magenta]
 
 % grises
-\definecolor[casiblanco][s=0.98]
-\definecolor[grismuymuyclaro][s=0.94]
-\definecolor[grismuyclaro][s=0.8]
-\definecolor[grisclaro][s=0.7]
-\definecolor[grismedio][s=0.5]
-\definecolor[grisoscuro][s=0.3]
 \definecolor[casinegro][s=0.03]
+\definecolor[grisoscuro][s=0.3]
+\definecolor[grismedio][s=0.5]
+\definecolor[grisclaro][s=0.7]
+\definecolor[grismuyclaro][s=0.8]
+\definecolor[grismuymuyclaro][s=0.94]
+\definecolor[casiblanco][s=0.98]
 
 % usos semanticos
+\definehighlight[rojo][color=rojo]
+\definehighlight[negro][color=negro]
+\definehighlight[blanco][color=blanco]
 \definehighlight[casiblanco][color=casiblanco]
 \definehighlight[grismuymuyclaro][color=grismuymuyclaro]
 \definehighlight[grismuyclaro][color=grismuyclaro]
@@ -62,13 +101,7 @@
 \definehighlight[grismedio][color=grismedio]
 \definehighlight[grisoscuro][color=grisoscuro]
 \definehighlight[casinegro][color=casinegro]
-
-\definehighlight[blanco][color=blanco]
-\definehighlight[negro][color=negro]
-\definehighlight[blanco][color=blanco]
-\definehighlight[rojo][color=rojo]
-
-\definehighlight[corregir][color=Magenta]
+\definehighlight[corregir][color=corregir]
 
 \setupcolors[textcolor=negro]
 
@@ -104,6 +137,12 @@
 % Espacios y sangrías
 \setupwhitespace[medium]
 \setupindenting[no]
+
+% Espacios horizontales
+\definehspace[dosem][2em]
+\definehspace[tresem][3em]
+\definehspace[doscm][2cm]
+\definehspace[trescms][3cm]
 
 % Interlineado
 %\setupinterlinespace[big]
@@ -198,12 +237,6 @@
   footerdistance=5mm,
   setups=layout:\Layout]
 
-% Modos de compilación %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\definemode[imprenta][keep]
-\definemode[pantalla][keep]
-\definemode[pdfa][keep]
-
 % Configuración de backend (PDF/A) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \startmode[pdfa]
@@ -223,31 +256,6 @@
   \setuplayout[location=middle, marking=on]
 \stopmode
 
-% Configuración de frames %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\defineframed[lateral][
-  frame=off,
-  leftframe=on,
-  framecolor=grisoscuro,
-  foreground=color,
-  foregroundcolor=grismuymuyclaro,
-  rulethickness=2pt,
-  frameoffset=10pt,
-]
-
-\setupframedtexts[
-  width={\makeupwidth},
-  background=color,
-  backgroundcolor=grismuymuyclaro,
-  width=local,
-  framecolor=grisoscuro,
-  foregroundcolor=casinegro,
-  foregroundstyle=small,
-  rulethickness=1pt,
-  frameoffset=0.3em,
-  backgroundoffset=0.3em,
-]
-
 % Formato de encabezados, pies y cornisas %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Autores de capitulo
@@ -255,7 +263,7 @@
 \def\doSectionAuthor[#1]#2{%
   \start\switchtobodyfont[10pt]%
   \doifsomethingelse{#1}
-    {\emph{#2}\crlf\switchtobodyfont[8pt] #1}
+    {\emph{#2}\\\switchtobodyfont[8pt] #1}
     {\emph{#2}}
   \stop\par%
 }
@@ -357,9 +365,14 @@
 \define\lfoot{{\footers[rightframe=on,loffset=-4pt,roffset=3pt]{\small\osf{\pagenumber}}}{\expanded{\footers[leftframe=on]{\small\grisoscuro{\getvariable{document}{title}}}}}}
 \define\rfoot{{\expanded{\footers[rightframe=on]{\small\grisoscuro{\getmarking[chapter]}}}}{\footers[leftframe=on,loffset=2pt,roffset=-2pt]{\small\osf{\pagenumber}}}}
 
-% Activar configuraciones 
+% Activar configuraciones generales
 \setupheadertexts[][][][]
 \setupfootertexts[][\rfoot][\lfoot][]
+
+% Configuración de pies de página para frontpart
+\startsectionblockenvironment[frontpart]
+  \setupfootertexts[][][][]
+\stopsectionblockenvironment
 
 % Listas %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -413,7 +426,7 @@
   \doifnot{\rawstructurelistuservariable{autores}}
     {}
     {
-      \crlf
+      \\
       \start
       \setupalign[flushleft,nothyphenated,verytolerant]
       \switchtobodyfont[9pt]
@@ -428,9 +441,39 @@
 
 \definecombinedlist[figuras][figure,rightfigure,leftfigure][alternative=c]
 
-\startsectionblockenvironment[frontpart]
-\setupfootertexts[][][][]
-\stopsectionblockenvironment
+% Configuración de marcos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setupframedtexts[
+  width={\makeupwidth},
+  background=color,
+  backgroundcolor=grismuymuyclaro,
+  width=local,
+  framecolor=grisoscuro,
+  foregroundcolor=casinegro,
+  foregroundstyle=small,
+  rulethickness=1pt,
+  frameoffset=0.3em,
+  backgroundoffset=0.3em,
+]
+
+\defineframed[lateral][
+  frame=off,
+  leftframe=on,
+  framecolor=grisoscuro,
+  foreground=color,
+  foregroundcolor=grismuymuyclaro,
+  rulethickness=2pt,
+  frameoffset=10pt,
+]
+
+\defineframed[legal][
+  frame=off,
+  strut=yes,
+  align={table},
+  width=.45\textwidth,
+  location=depth,
+  setups={document:legal},
+]
 
 % Flotantes %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -532,8 +575,7 @@
 \setupTABLE[row][1][style={\small\bf},rulethickness=0.6pt]
 \setupTABLE[row][last][bottomframe=on]
 
-
-% Fuente para tablas y figuras %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Autoría para tablas y figuras %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \define[1]\fuentent{\start\setupalign[middle,nothyphenated,verytolerant,stretch]\switchtobodyfont[8pt]#1\par\stop}
 \define[1]\fuente{\start\setupalign[middle,nothyphenated,verytolerant,stretch]\switchtobodyfont[8pt]\emph{Fuente:}~#1\par\stop}
@@ -572,11 +614,14 @@
                footerstate=empty,
                pagestate=start]
 
+\definelayout [legal]
+              [header=1in,
+               footer=1in,
+               topspace=1in]
+
 \definemakeup [legal]
               [doublesided=no,
                page=left,
-               headerstate=empty,
-               footerstate=empty,
                top=,
                pagestate=start]
 
@@ -596,6 +641,161 @@
                headerstate=empty,
                footerstate=empty,
                pagestate=start]
+
+% Buffers %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\definebuffer[editorial]
+\startbuffer[editorial]
+  \documentvariable{editorial}\\
+  \documentvariable{editorialDireccion}
+  Teléfono:~\documentvariable{editorialTelefono} \\
+  \texthref{\documentvariable{editorialUrl}}{https://\documentvariable{editorialUrl}/}\\
+  \texthref{\documentvariable{editorialEmail}}{mailto:\documentvariable{editorialEmail}}
+\stopbuffer
+
+\definebuffer[institucionales]
+\startbuffer[institucionales]
+  Reservados todos los derechos\\
+  \Copyright\\
+  © \autoresListaH,\space\Roles\\
+  © Varios autores
+
+  \blank[big]
+
+  Primera edición: \Fecha\\
+  \versalita{isbn:} (impreso) {\Isbn}\\
+  \versalita{isbn:} (digital) {\Isbne}\\
+  \versalita{doi:} {\Doi}
+
+  \blank[halfline]
+
+  Número de ejemplares: \Ejemplares
+
+  \blank[halfline]
+
+  Impreso y hecho en Colombia\\
+  \emph{Printed and made in Colombia}
+
+  \blank[big]
+
+  \getbuffer[editorial]
+\stopbuffer
+
+\definebuffer[editoriales]
+\startbuffer[editoriales]
+  Corrección de estilo:\\
+  Ella Suárez
+
+  \blank[halfline]
+
+  Diseño de pauta \useURL[ctx][http://context.aanhet.net/][][\CONTEXT]\from[ctx] y diagramación:\\
+  Andrés Conrado Montoya Acosta
+
+  \blank[halfline]
+
+  Diseño de cubierta:\\
+  Andrés Conrado Montoya Acosta
+
+  \blank[halfline]
+
+  Ilustraciones:\\
+  Andrea Tobacía
+
+  \blank[halfline]
+
+  Impresión:\\
+  \corregir{\Impresores}
+
+  \blank[2*big]
+
+  Pontificia Universidad Javeriana \| Vigilada Mineducación. Reconocimiento como Universidad: Decreto 1270 del 30 de mayo de 1964. Reconocimiento como personería jurídica: Resolución 73 del 12 de diciembre de 1933 del Ministerio de Gobierno.
+\stopbuffer
+
+\definebuffer[catalografica]
+\startbuffer[catalografica]
+  \start
+    \setupalign[middle,nothyphenated,verytolerant]
+    \documentvariable{institucion}.\space\documentvariable{biblioteca}\\
+    Catalogación en la publicación\par
+  \stop
+  \blank[big]
+  \startparagraph
+    Useche Gómez, Luis Fernando, autor, editor académico
+  \stopparagraph
+  \startparagraph
+    Técnicas de cirugía de cadera / autores, Luis Fernando Useche Gómez {[}y otros diez{]} ; editores académicos, Luis Fernando Useche Gómez, Hernando Gaitán Lee, Diana Sarmiento Osorio. --- Primera edición. ---~Bogotá~: Editorial Pontificia Universidad Javeriana, 2023.
+  \stopparagraph
+  \blank[big]
+  \totalnumberofpages~páginas~; ilustraciones, Fotografías~; 17~×~24\,cm.\par
+  \versalita{ISBN}: \Isbn (impreso)\par
+  \versalita{ISBN}: \Isbne (electrónico)\par
+  \blank[big]
+  1. Artroplastia de reemplazo de cadera 2. Prótesis de cadera 3. Cirugía operatoria 4. Enfermedades de la articulación de la cadera 5. Cadera - Anatomía 6. Luxación de la~cadera I. Gaitán Lee, Hernando, autor, editor académico II. Sarmiento Osorio, Diana, autora, editora académica III. Pontificia Universidad Javeriana. Bogotá.\par
+  \blank[big]
+  CDD 617.581 edición 23\par
+  \blank[big]
+  \hrule
+  \blank[small]
+  inp \hfill 08/06/2023
+\stopbuffer
+
+% Setups %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\startsetups[document:legal]
+  \switchtobodyfont[8pt]
+\stopsetups
+
+\startsetups[document:start]
+  \startmakeup[antetitulo]
+    \start\bf\raggedleft\dontleavehmode\switchtobodyfont[14pt]\Titulo\\\switchtobodyfont[11pt]\Subtitulo\stop
+  \stopmakeup
+
+  \page[yes,empty,right]
+
+  \startmakeup[portadilla]
+    \start
+      \bf\switchtobodyfont[32pt]\Titulo\blank[small]
+      \switchtobodyfont[12pt]\grisoscuro{\Subtitulo}
+    \stop
+    \blank[3cm]
+    \start
+      \switchtobodyfont[12pt]
+      \grismedio{\versalita{\autoresListaV}}
+      \small\grisoscuro\Word{\Roles}
+    \stop
+    \blank[9cm]
+    \dontleavehmode\externalfigure[\documentvariable{logotipoinstitucion}][logotipo]
+  \stopmakeup
+
+  \startmakeup[legal]
+    \vfill
+    \startcombination[2*1]
+      {\legal{\externalfigure[\documentvariable{logotipofacultad}][height=1.2cm]}}{}
+      {\legal{\externalfigure[\documentvariable{logotipoeditorial}][height=1cm]}}{}
+    \stopcombination
+    \blank[medium]
+    \startcombination[nx=2,ny=1,location={top}]
+      {\legal{\getbuffer[institucionales]}}{}
+      {\legal{\getbuffer[editoriales]}}{}
+    \stopcombination
+    \blank[2*big]
+    \startframed[offset=1em,width=local,align={width,nothyphenated,verytolerant}]
+      \switchtobodyfont[7pt]
+      \getbuffer[catalografica]
+    \stopframed
+  \stopmakeup
+\stopsetups
+
+\startsetups[document:stop]
+  \startmakeup[colofon]
+      Este libro se compuso\\
+      usando tipos Erewhon, \\
+      con el sistema de composición \\
+      tipográﬁca \from[ctx]. \\
+      Se terminó de imprimir \\
+      en los talleres de \documentvariable{impresores} \\
+      en \documentvariable{fecha}.
+  \stopmakeup
+\stopsetups
 
 % Extras %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
