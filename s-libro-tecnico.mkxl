@@ -2,7 +2,7 @@
 %C Copyright (c) 2025 Andrés Conrado Montoya Acosta (github.com/conradolandia)
 %C andi@sesentaycuatro.com | sesentaycuatro.com
 %C Creado con ConTeXt LMTX (https://wiki.contextgarden.net/)
-%C Versión: 1.0.0
+%C Versión: 0.0.2
 %C Licencia: MIT
 
 \startmodule[libro-tecnico]
