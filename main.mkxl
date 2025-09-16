@@ -45,9 +45,9 @@
   copyright={2025 Andrés Conrado Montoya Acosta},
   colaboradores={ella,adis,adia,ilus,impr},
   layout={estricto},
-  logotipoinstitucion={puj},
-  logotipofacultad={puj_facu},
-  logotipoeditorial={eh},
+  logotipoinstitucion={https://raw.githubusercontent.com/conradolandia/logos-javeriana/main/puj.pdf},
+  logotipofacultad={https://raw.githubusercontent.com/conradolandia/logos-javeriana/main/puj_facu.pdf},
+  logotipoeditorial={https://raw.githubusercontent.com/conradolandia/logos-javeriana/main/eh.pdf},
   reconocimiento={Pontificia Universidad Javeriana \| Vigilada Mineducación. Reconocimiento como Universidad: Decreto 1270 del 30 de mayo de 1964. Reconocimiento como personería jurídica: Resolución 73 del 12 de diciembre de 1933 del Ministerio de Gobierno.}
 ]
 

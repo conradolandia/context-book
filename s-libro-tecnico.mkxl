@@ -10,7 +10,7 @@
 % Paths adicionales de búsqueda de archivos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \usepath[contenido]
-\setupexternalfigures[directory={include,include/logos,media,img},order={pdf,svg,png,jpg}]
+\setupexternalfigures[directory={include,media,img},order={pdf,svg,png,jpg}]
 
 % Modos de compilación %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
