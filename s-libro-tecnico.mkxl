@@ -7,41 +7,16 @@
 
 \startmodule[libro-tecnico]
 
+% Paths adicionales de búsqueda de archivos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepath[contenido]
+\setupexternalfigures[directory={include,include/logos,media,img},order={pdf,svg,png,jpg}]
+
 % Modos de compilación %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \definemode[pdfa][keep]
 \definemode[imprenta][keep]
 \definemode[pantalla][keep]
-
-% Variables generales para el documento
-\defineexpandable\Titulo{\documentvariable{titulo}}
-\defineexpandable\Subtitulo{\documentvariable{subtitulo}}
-\defineexpandable\TituloCompleto{\Titulo:\space\Subtitulo}
-\defineexpandable\Autores{\documentvariable{autores}}
-\defineexpandable\Roles{\documentvariable{roles}}
-\defineexpandable\Fecha{\documentvariable{fecha}}
-\defineexpandable\Institucion{\documentvariable{institucion}}
-\defineexpandable\Editorial{\documentvariable{editorial}}
-\defineexpandable\Isbn{\documentvariable{isbn}}
-\defineexpandable\Isbne{\documentvariable{isbne}}
-\defineexpandable\Doi{\documentvariable{doi}}
-\defineexpandable\Ejemplares{\documentvariable{ejemplares}}
-\defineexpandable\Impresores{\documentvariable{impresores}}
-\defineexpandable\Version{\documentvariable{version}}
-\defineexpandable\Licencia{\documentvariable{licencia}}
-\defineexpandable\Copyright{©~\documentvariable{copyright}}
-\defineexpandable\Layout{\documentvariable{layout}}
-
-% Listas de autores
-\define\autoresListaV{\commalistsentence[\documentvariable{autores}][{\\},{\\}]\par}
-\define\autoresListaH{\commalistsentence[\documentvariable{autores}][{,\space},{,\space y \space}]}
-
-% Macros para hyperlinks
-\define[1]\href{\bgroup\startasciimode\goto{\hyphenatedurl{#1}}[url(#1)]\stopasciimode\egroup}
-\define[2]\texthref{\bgroup\startasciimode\goto{#1}[url(#2)]\stopasciimode\egroup}
-
-% Generación de DOI
-\defineexpandable\generateDOI{\href{https://doi.org/10.11144/Javeriana.\Doi}}
 
 % Lenguaje %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -186,9 +161,9 @@
 \sethyphenatedurlbefore{}
 \sethyphenatedurlafter{_:/;.,-}
 
-% Configurar marcadores de libro
-\placebookmarks[chapter, section, subsection, subsubsection, subsubsubsection, subsubsubsubsection][chapter, section]
-\setupinteractionscreen[option=bookmark]
+% Configurar marcadores de libro: añadir marcadores para capítulo, sección y subsección
+% pero solo abrir los capítulos por defecto en la estructura del PDF
+\placebookmarks[chapter,section,subsection][chapter]
 \setuptagging[state=start]
 
 % Layout %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -235,7 +210,7 @@
   footer=15mm,
   headerdistance=5mm,
   footerdistance=5mm,
-  setups=layout:\Layout]
+  setups=layout:\documentvariable{layout}]
 
 % Configuración de backend (PDF/A) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -279,15 +254,11 @@
 
 % Configuración general para seccionado
 \setuphead[
-  section,
-  subsection,
+  section,subsection,
   subsubsection,
   subsubsubsection,
   subsubsubsubsection,
-][
-  align={flushleft,nothyphenated,verytolerant,stretch},
-  number=no,
-]
+][number=no,align={flushleft,nothyphenated,verytolerant,stretch}]
 
 % Estilo de capítulo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -301,17 +272,15 @@
 \startsetups[chapter:after]
   \blank[line]
   \startautores
-  \SectionAuthor[\structureuservariable{afiliacion}]{\commalistsentence[\structureuservariable{autores}][{,\space},{\space y~}]}
+    \SectionAuthor[\structureuservariable{afiliacion}]
+      {\commalistsentence[\structureuservariable{autores}][{,\space},{\space y~}]}
   \stopautores
   \blank[6*line]
 \stopsetups
 
 % Makeup para partes %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\definemakeup
-  [part]
-  [align=middle,
-  pagestate=start]
+\definemakeup[part][align=middle,pagestate=start]
 
 % Setuphead(s) para cap., sec., etc. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -416,30 +385,35 @@
 
 % TDC %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%% Añadir autores a la lista TOC
+%% Añadir autores de capítulo a la lista TOC
 %% Se agregan autores como un par adicional de corchetes en el título, ejemplo:
-%% \startsection[title={Something}][autores={{John Smith, MD},{Micke Stronberg, MD},{Uma Thurman, MD}}]
-\newdimen\SectionTocEntryWidth
-\SectionTocEntryWidth=0.6cm
-\define[1]\SectionTocEntry{
-  #1
-  \doifnot{\rawstructurelistuservariable{autores}}
-    {}
-    {
-      \\
-      \start
+%% \startchapter[title={Something}][autores={{John Smith, MD},{Micke Stronberg, MD},{Uma Thurman, MD}}]
+\newdimen\ChapterEntryWidth
+\ChapterEntryWidth=16pt
+\define[1]\SectionTocEntry{%
+  #1\doifsomething{\rawstructurelistuservariable{autores}}{%
+    \crlf
+    \start
       \setupalign[flushleft,nothyphenated,verytolerant]
       \switchtobodyfont[9pt]
-      \hskip\SectionTocEntryWidth\commalistsentence[\rawstructurelistuservariable{autores}][{,\space},{\space y~}]
-      \stop
-    }
+      \hskip\ChapterEntryWidth
+      \commalistsentence[\rawstructurelistuservariable{autores}][{,\space},{\space y~}]
+    \stop%
+  }
 }
 
+% Configurar que incluir en la tabla de contenido
 \setupcombinedlist[content][list={chapter,sinnumerar},alternative=c]
-\setuplist[part][textstyle={bold},textcommand={\versalita},before={\blank[2*big]},after={\blank[2*big]}]
-\setuplist[chapter][after=\SectionTocEntry,stopper={.},width={\SectionTocEntryWidth}]
 
+% Configuración de aspecto de secciones en tabla de contenido
+\setuplist[part][textstyle={bold},textcommand={\versalita},before={\blank[2*big]},after={\blank[2*big]}]
+\setuplist[chapter][after=\SectionTocEntry,stopper={.},width={\ChapterEntryWidth}]
+
+% Crear lista de figuras que contenga figure, rightfigure y leftfigure
 \definecombinedlist[figuras][figure,rightfigure,leftfigure][alternative=c]
+
+% Crear lista de tablas que contenga table, righttable y lefttable
+\definecombinedlist[tablas][table,righttable,lefttable][alternative=c]
 
 % Configuración de marcos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -628,10 +602,7 @@
 \definemakeup [colofon]
               [align=center,
                doublesided=no,
-               color=oscuro,
-               page=left,
-               headerstate=empty,
-               footerstate=empty]
+               page=left]
 
 \definemakeup [dedicatoria]
               [align={flushright,nothyphenated,verytolerant},
@@ -643,7 +614,7 @@
                pagestate=start]
 
 % Buffers %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\definebuffer[editorial]
+
 \startbuffer[editorial]
   \documentvariable{editorial}\\
   \documentvariable{editorialDireccion}
@@ -652,65 +623,47 @@
   \texthref{\documentvariable{editorialEmail}}{mailto:\documentvariable{editorialEmail}}
 \stopbuffer
 
-\definebuffer[institucionales]
-\startbuffer[institucionales]
+\startbuffer[legalizquierda]
   Reservados todos los derechos\\
-  \Copyright\\
-  © \autoresListaH,\space\Roles\\
+  ©~\documentvariable{copyright}\\
+  © \autoresListaH,\space\documentvariable{roles}\\
   © Varios autores
-
   \blank[big]
-
-  Primera edición: \Fecha\\
-  \versalita{isbn:} (impreso) {\Isbn}\\
-  \versalita{isbn:} (digital) {\Isbne}\\
-  \versalita{doi:} {\Doi}
-
+  \Word{\documentvariable{edicion}}~edición: \documentvariable{fecha}\\
+  \versalita{isbn:} (impreso) {\documentvariable{isbn}}\\
+  \versalita{isbn:} (digital) {\documentvariable{isbne}}\\
+  \versalita{doi:} {\DOIurl}
   \blank[halfline]
-
-  Número de ejemplares: \Ejemplares
-
+  Número de ejemplares: \documentvariable{ejemplares}
   \blank[halfline]
-
   Impreso y hecho en Colombia\\
   \emph{Printed and made in Colombia}
-
   \blank[big]
-
   \getbuffer[editorial]
 \stopbuffer
 
-\definebuffer[editoriales]
-\startbuffer[editoriales]
-  Corrección de estilo:\\
-  Ella Suárez
+% Créditos de colaboradores
+\definenamespace[colaboradores][
+  type=module,
+  name=colaborador,
+  command=yes,
+  parent=colaboradores,
+]
 
-  \blank[halfline]
+% Macro para presentar los colaboradores
+\define[1]\usecolaborador{%
+  \edef\currentcolaborador{#1}{%
+    \doifsomething{\colaboradorparameter{rol}}{\colaboradorparameter{rol}:\crlf}
+    \doifsomething{\colaboradorparameter{nombre}}{\colaboradorparameter{nombre}\blank[halfline]\par}%
+  }%
+}
 
-  Diseño de pauta \useURL[ctx][http://context.aanhet.net/][][\CONTEXT]\from[ctx] y diagramación:\\
-  Andrés Conrado Montoya Acosta
-
-  \blank[halfline]
-
-  Diseño de cubierta:\\
-  Andrés Conrado Montoya Acosta
-
-  \blank[halfline]
-
-  Ilustraciones:\\
-  Andrea Tobacía
-
-  \blank[halfline]
-
-  Impresión:\\
-  \corregir{\Impresores}
-
+\startbuffer[legalderecha]
+  \processcommacommand[\documentvariable{colaboradores}]\usecolaborador
   \blank[2*big]
-
-  Pontificia Universidad Javeriana \| Vigilada Mineducación. Reconocimiento como Universidad: Decreto 1270 del 30 de mayo de 1964. Reconocimiento como personería jurídica: Resolución 73 del 12 de diciembre de 1933 del Ministerio de Gobierno.
+    \documentvariable{reconocimiento}
 \stopbuffer
 
-\definebuffer[catalografica]
 \startbuffer[catalografica]
   \start
     \setupalign[middle,nothyphenated,verytolerant]
@@ -726,14 +679,13 @@
   \stopparagraph
   \blank[big]
   \totalnumberofpages~páginas~; ilustraciones, Fotografías~; 17~×~24\,cm.\par
-  \versalita{ISBN}: \Isbn (impreso)\par
-  \versalita{ISBN}: \Isbne (electrónico)\par
+  \versalita{ISBN}: \documentvariable{isbn} (impreso)\par
+  \versalita{ISBN}: \documentvariable{isbne} (electrónico)\par
   \blank[big]
   1. Artroplastia de reemplazo de cadera 2. Prótesis de cadera 3. Cirugía operatoria 4. Enfermedades de la articulación de la cadera 5. Cadera - Anatomía 6. Luxación de la~cadera I. Gaitán Lee, Hernando, autor, editor académico II. Sarmiento Osorio, Diana, autora, editora académica III. Pontificia Universidad Javeriana. Bogotá.\par
   \blank[big]
-  CDD 617.581 edición 23\par
-  \blank[big]
-  \hrule
+  CDD 617.581 edición 23\crlf
+  \thinrule
   \blank[small]
   inp \hfill 08/06/2023
 \stopbuffer
@@ -746,21 +698,21 @@
 
 \startsetups[document:start]
   \startmakeup[antetitulo]
-    \start\bf\raggedleft\dontleavehmode\switchtobodyfont[14pt]\Titulo\\\switchtobodyfont[11pt]\Subtitulo\stop
+    \start\bf\raggedleft\dontleavehmode\switchtobodyfont[14pt]\documentvariable{titulo}\\\switchtobodyfont[11pt]\documentvariable{subtitulo}\stop
   \stopmakeup
 
   \page[yes,empty,right]
 
   \startmakeup[portadilla]
     \start
-      \bf\switchtobodyfont[32pt]\Titulo\blank[small]
-      \switchtobodyfont[12pt]\grisoscuro{\Subtitulo}
+      \bf\switchtobodyfont[32pt]\documentvariable{titulo}\blank[small]
+      \switchtobodyfont[12pt]\grisoscuro{\documentvariable{subtitulo}}
     \stop
     \blank[3cm]
     \start
       \switchtobodyfont[12pt]
       \grismedio{\versalita{\autoresListaV}}
-      \small\grisoscuro\Word{\Roles}
+      \small\grisoscuro\Word{\documentvariable{roles}}
     \stop
     \blank[9cm]
     \dontleavehmode\externalfigure[\documentvariable{logotipoinstitucion}][logotipo]
@@ -774,8 +726,8 @@
     \stopcombination
     \blank[medium]
     \startcombination[nx=2,ny=1,location={top}]
-      {\legal{\getbuffer[institucionales]}}{}
-      {\legal{\getbuffer[editoriales]}}{}
+      {\legal{\getbuffer[legalizquierda]}}{}
+      {\legal{\getbuffer[legalderecha]}}{}
     \stopcombination
     \blank[2*big]
     \startframed[offset=1em,width=local,align={width,nothyphenated,verytolerant}]
@@ -790,14 +742,28 @@
       Este libro se compuso\\
       usando tipos Erewhon, \\
       con el sistema de composición \\
-      tipográﬁca \from[ctx]. \\
+      tipográﬁca \ctx. \\
       Se terminó de imprimir \\
       en los talleres de \documentvariable{impresores} \\
       en \documentvariable{fecha}.
   \stopmakeup
 \stopsetups
 
-% Extras %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Macros adicionales %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% ConTeXt logo con enlace
+\define\ctx{\texthref{\CONTEXT}{https://context.aanhet.net/}}
+
+% Listas de autores
+\define\autoresListaV{\commalistsentence[\documentvariable{autores}][{\crlf},{\crlf}]\par}
+\define\autoresListaH{\commalistsentence[\documentvariable{autores}][{,\space},{\space{}y~}]}
+
+% Macros para hyperlinks
+\define[1]\href{\bgroup\startasciimode\goto{\hyphenatedurl{#1}}[url(#1)]\stopasciimode\egroup}
+\define[2]\texthref{\bgroup\startasciimode\goto{#1}[url(#2)]\stopasciimode\egroup}
+
+% Generación de DOI
+\define\DOIurl{\href{https://doi.org/10.11144/Javeriana.\documentvariable{doi}}}
 
 % Macros para acomodar líneas extra
 \defineexpandable\unamas{\adaptlayout[lines=+1]}

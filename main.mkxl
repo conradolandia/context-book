@@ -4,14 +4,26 @@
 % Creado con ConTeXt (https://wiki.contextgarden.net/)
 % Build mode: mkxl
 
-\usepath[contenido]
 \usemodule[libro-tecnico]
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% INICIO DOCUMENTO
+% DEFINICIONES DE METADATOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Autores
+%\defineautor[autores][rol={autor}]
+%\defineautor[andi][autores][nombres={Andrés Conrado}, apellidos={Montoya Acosta}]
+%\defineautor[soni][autores][nombres={Sonia Amparo}, apellidos={Rodríguez Rodríguez}]
+
+% Colaboradores
+\definecolaborador[ella][nombre={Ella Suárez}, rol={Corrección de estilo}]
+\definecolaborador[adis][nombre={Andrés Conrado Montoya Acosta}, rol={Diseño de pauta \texthref{\ConTeXt}{http://context.aanhet.net/} y diagramación}]
+\definecolaborador[adia][nombre={Andrés Conrado Montoya Acosta}, rol={Diseño de cubierta}]
+\definecolaborador[ilus][nombre={Andrea Tobacía}, rol={Ilustraciones}]
+\definecolaborador[impr][nombre={\corregir{\documentvariable{impresores}}}, rol={Impresión}]
+
+% VARIABLES DE DOCUMENTO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \startdocument[
   titulo={Libro Técnico},
-  subtitulo={Una plantilla para libros técnicos, elaborada en \ConTeXt{} \LMTX},
+  subtitulo={Una plantilla para libros técnicos, elaborada en \ConTeXt{}/\LMTX},
   autores={Andrés Conrado Montoya Acosta, Sonia Amparo Rodríguez Rodríguez},
   roles={autores},
   institucion={Pontificia Universidad Javeriana},
@@ -25,36 +37,42 @@
   isbne={000-000-000-000-0},
   doi={000-000-000-000-0},
   ejemplares={300},
+  edicion={primera},
   impresores={DGP Editores S.A.S.},
   fecha={\currentdate[month,{~de~},year]}, 
   version={1.0.0},
   licencia={MIT},
   copyright={2025 Andrés Conrado Montoya Acosta},
+  colaboradores={ella,adis,adia,ilus,impr},
   layout={estricto},
-  logotipoinstitucion={include/logos/puj},
-  logotipofacultad={include/logos/puj_facu},
-  logotipoeditorial={include/logos/eh},
+  logotipoinstitucion={puj},
+  logotipofacultad={puj_facu},
+  logotipoeditorial={eh},
+  reconocimiento={Pontificia Universidad Javeriana \| Vigilada Mineducación. Reconocimiento como Universidad: Decreto 1270 del 30 de mayo de 1964. Reconocimiento como personería jurídica: Resolución 73 del 12 de diciembre de 1933 del Ministerio de Gobierno.}
 ]
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TOC Y LISTAS
+% TOC Y LISTAS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\startfrontmatter
-
+% TdC (criterium=all para incluir secciones anteriores a la TdC)
 \completecontent[criterium=all]
 
+% Usar título personalizado para lista y usar listas personalizadas
+% que incluyen versiones `left` y `right` de tablas y figuras
 %\starttitle[title={Figuras}]
 %\placefiguras
 %\stoptitle
+%\starttitle[title={Tablas}]
+%\placetablas
+%\stoptitle
 
+% Usar título por defecto (solo incluye `figure` o `table`)
+%\completelistoffigures[alternative=c]
 %\completelistoftables[alternative=c]
 
-\stopfrontmatter
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CUERPO
-
-\startbodymatter
+% CONTENIDO GENERAL %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \input contenido.mkxl
 
-\stopbodymatter
+% FIN DEL DOCUMENTO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \stopdocument
