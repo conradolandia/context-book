@@ -8,9 +8,9 @@
 
 % DEFINICIONES DE METADATOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Autores
-%\defineautor[autores][rol={autor}]
-%\defineautor[andi][autores][nombres={Andrés Conrado}, apellidos={Montoya Acosta}]
-%\defineautor[soni][autores][nombres={Sonia Amparo}, apellidos={Rodríguez Rodríguez}]
+\defineautor[autores][rol={autor}]
+\defineautor[andi][autores][nombres={Andrés Conrado}, apellidos={Montoya Acosta}]
+\defineautor[soni][autores][nombres={Sonia Amparo}, apellidos={Rodríguez Rodríguez}]
 
 % Colaboradores
 \definecolaborador[ella][nombre={Ella Suárez}, rol={Corrección de estilo}]
@@ -24,7 +24,7 @@
 \startdocument[
   titulo={Libro Técnico},
   subtitulo={Una plantilla para libros técnicos, elaborada en \ConTeXt{}/\LMTX},
-  autores={Andrés Conrado Montoya Acosta, Sonia Amparo Rodríguez Rodríguez},
+  autores={andi,soni},
   roles={autores},
   institucion={Pontificia Universidad Javeriana},
   editorial={Editorial Pontificia Universidad Javeriana},

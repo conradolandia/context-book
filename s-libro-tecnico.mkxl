@@ -18,6 +18,55 @@
 \definemode[imprenta][keep]
 \definemode[pantalla][keep]
 
+% Namespaces %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Registro de colaboradores
+\definenamespace[colaboradores][
+  type=module,
+  name=colaborador,
+  command=yes,
+  parent=colaboradores,
+]
+
+% Registro de autores
+\definenamespace[autores][
+  type=module,
+  name=autor,
+  command=yes,
+  parent=autores,
+]
+
+% Presentar los autores en orden normal (portadilla)
+\define[1]\AutorNombreApellido{\edef\currentautor{#1}{%
+  \doifsomething{\autorparameter{nombres}}{\autorparameter{nombres}\space}%
+  \doifsomething{\autorparameter{apellidos}}{\autorparameter{apellidos}}%
+}}
+
+\define[1]\AutorNombreApellidoPar{\AutorNombreApellido{#1}\par}
+\define[1]\ListaAutores{{\AutorNombreApellido{#1},\space}}
+
+% Presentar los autores en orden apellido, nombre, rol (ficha catalográfica)
+\define[1]\AutorApellidoNombre{\edef\currentautor{#1}{%
+  \doifsomething{\autorparameter{apellidos}}{\autorparameter{apellidos},\space}%
+  \doifsomething{\autorparameter{nombres}}{%
+    \autorparameter{nombres}, 
+    \doifsomething{\autorparameter{rol}}{%
+      \autorparameter{rol}%
+    }%
+  }%
+}}
+
+% Presentar los colaboradores con rol (página legal)
+\define[1]\Colaborador{\edef\currentcolaborador{#1}{%
+  \doifsomething{\colaboradorparameter{rol}}{\colaboradorparameter{rol}:\crlf}%
+  \doifsomething{\colaboradorparameter{nombre}}{\colaboradorparameter{nombre}\blank[halfline]\endgraf}%
+}}
+
+% Presentar nombre de colaboradores (impresor, otros)
+\define[1]\NombreColaborador{\edef\currentcolaborador{#1}{%
+  \doifsomething{\colaboradorparameter{nombre}}{\colaboradorparameter{nombre}}%
+}}
+
 % Lenguaje %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Configura lenguaje de elementos de texto autogenerados como "Contenido"
@@ -613,7 +662,7 @@
 \startbuffer[legalizquierda]
   Reservados todos los derechos\\
   ©~\documentvariable{copyright}\\
-  ©~\autoresListaH,\space\documentvariable{roles}\\
+  ©~\autoresListaH\space\documentvariable{roles}\\
   ©~Varios autores
   \blank[big]
   \Word{\documentvariable{edicion}}~edición: \documentvariable{fecha}\\
@@ -628,25 +677,6 @@
   \blank[big]
   \getbuffer[editorial]
 \stopbuffer
-
-% Créditos de colaboradores
-\definenamespace[colaboradores][
-  type=module,
-  name=colaborador,
-  command=yes,
-  parent=colaboradores,
-]
-
-% Macro para presentar los colaboradores con cargo
-\define[1]\Colaborador{%
-  \edef\currentcolaborador{#1}{%
-    \doifsomething{\colaboradorparameter{rol}}{\colaboradorparameter{rol}:\crlf}
-    \doifsomething{\colaboradorparameter{nombre}}{\colaboradorparameter{nombre}\blank[halfline]\par}%
-  }%
-}
-
-% Macro para presentar nombre de colaboradores
-\define[1]\NombreColaborador{\edef\currentcolaborador{#1}{\colaboradorparameter{nombre}}}
 
 \startbuffer[legalderecha]
   \processcommacommand[\documentvariable{colaboradores}]\Colaborador
@@ -749,8 +779,10 @@
 \define\ctx{\texthref{\CONTEXT}{https://context.aanhet.net/}}
 
 % Listas de autores
-\define\autoresListaV{\commalistsentence[\documentvariable{autores}][{\crlf},{\crlf}]\par}
-\define\autoresListaH{\commalistsentence[\documentvariable{autores}][{,\space},{\space{}y~}]}
+\define\autoresListaV{\processcommacommand[\documentvariable{autores}]\AutorNombreApellidoPar}
+%\define\autoresListaH{\commalistsentence[\documentvariable{autores}][{,\space},{\space{}y~}]}
+\define\autoresListaH{\processcommacommand[\documentvariable{autores}]\ListaAutores}
+%\commalistsentence[][{,\space},{\space{}y~}]
 
 % Macros para hyperlinks
 \define[1]\href{\bgroup\startasciimode\goto{\hyphenatedurl{#1}}[url(#1)]\stopasciimode\egroup}
@@ -764,9 +796,10 @@
 \define\dosmas{\adaptlayout[lines=+2]}
 
 % Filtros externos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \usemodule[filter]
 
-% Markdown: introducir codigo markdown entre \startmarkdown..\stopmarkdown
+% Markdown: introducir código markdown directamente entre \startmarkdown..\stopmarkdown
 \defineexternalfilter[markdown]
   [filtercommand={pandoc -t context -f markdown -o \externalfilteroutputfile\space\externalfilterinputfile}]
 
