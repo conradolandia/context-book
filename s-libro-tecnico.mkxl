@@ -144,14 +144,15 @@
 % Hipervínculos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Activar hyperlinks
-\setupinteraction
-  [state=start,
+\setupinteraction[
+  state=start,
   style={\tf},
   title={\getvariable{document}{title}},
   subtitle={\getvariable{document}{subtitle}},
   author={\autoresListaH},
   color=negro,
-  contrastcolor=negro]
+  contrastcolor=negro,
+]
 
 % Evitar que dos diagonales consecutivas se dividan en diferentes líneas
 \enabledirectives[hyphenators.urls.packslashes] 
@@ -187,8 +188,8 @@
 \stopsetups
 
 % Configurar layout
-\setuplayout
-  [marking=off,
+\setuplayout[
+  marking=off,
   topspace=5mm,
   height=634pt,
   backspace=30mm,
@@ -197,7 +198,8 @@
   footer=15mm,
   headerdistance=5mm,
   footerdistance=5mm,
-  setups=layout:estricto]
+  setups=layout:estricto,
+]
 
 % Configuración de backend (PDF/A) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -544,9 +546,8 @@
 \define[1]\xfuente{\start\setupalign[middle,nothyphenated,verytolerant,stretch]\emph{Fuente:}~#1\par\stop}
 \define[1]\fuentefignt{\par\blank[2pt]\start\switchtobodyfont[8pt]#1\par\stop}
 \define[1]\fuentefig{\par\blank[2pt]\start\switchtobodyfont[8pt]\emph{Fuente:}~#1\par\stop}
-
-\def\propia{\fuentefig{elaboración propia.}}
-\def\propiat{\fuente{elaboración propia.}}
+\define\propia{\fuentefig{elaboración propia.}}
+\define\propiat{\fuente{elaboración propia.}}
 
 % Makeups %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -759,11 +760,15 @@
 \define\DOIurl{\href{https://doi.org/10.11144/Javeriana.\documentvariable{doi}}}
 
 % Macros para acomodar líneas extra
-\defineexpandable\unamas{\adaptlayout[lines=+1]}
-\defineexpandable\dosmas{\adaptlayout[lines=+2]}
+\define\unamas{\adaptlayout[lines=+1]}
+\define\dosmas{\adaptlayout[lines=+2]}
 
-% Reducir salida en consola
-\dontcomplain 
+% Filtros externos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usemodule[filter]
+
+% Markdown: introducir codigo markdown entre \startmarkdown..\stopmarkdown
+\defineexternalfilter[markdown]
+  [filtercommand={pandoc -t context -f markdown -o \externalfilteroutputfile\space\externalfilterinputfile}]
 
 \stopmodule
 \endinput
