@@ -175,28 +175,15 @@
 % Configurar tolerancia
 \setuptolerance[tolerant,stretch]
 
-% Configurar penalidades
-\startsetups[layout:penalidades]
+% Evitar viudas, huérfanos, y malas particiones de palabras
+\startsetups[estricto]
   \setdefaultpenalties
-  \setpenalties\widowpenalties{2}{100000}
-  \setpenalties\clubpenalties {2}{100000}
-  \setbreakpoints[compound]
-\stopsetups
-
-% Estilo Old Style (mas estricto con dobles guiones, menos con finales)
-\startsetups[layout:oldstyle]
-  \setups[layout:penalidades]
-  \doublehyphendemerits=100000
-  \finalhyphendemerits=50000
-  \adjdemerits=20000
-\stopsetups
-
-% Estilo Estricto (para imprenta)
-\startsetups[layout:estricto]
-  \setups[layout:penalidades]
-  \doublehyphendemerits=50000
-  \finalhyphendemerits=100000
+  \setpenalties\widowpenalties{2}{1000000}
+  \setpenalties\clubpenalties {2}{1000000}
+  \doublehyphendemerits=1000000
+  \finalhyphendemerits=1000000
   \adjdemerits=30000
+  \setbreakpoints[compound]
 \stopsetups
 
 % Configurar layout
@@ -210,7 +197,7 @@
   footer=15mm,
   headerdistance=5mm,
   footerdistance=5mm,
-  setups=layout:\documentvariable{layout}]
+  setups=layout:estricto]
 
 % Configuración de backend (PDF/A) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -589,14 +576,13 @@
                pagestate=start]
 
 \definelayout [legal]
-              [header=1in,
-               footer=1in,
-               topspace=1in]
+              [header=3.5cm]
 
 \definemakeup [legal]
               [doublesided=no,
                page=left,
                top=,
+               bottom=,
                pagestate=start]
 
 \definemakeup [colofon]
@@ -626,8 +612,8 @@
 \startbuffer[legalizquierda]
   Reservados todos los derechos\\
   ©~\documentvariable{copyright}\\
-  © \autoresListaH,\space\documentvariable{roles}\\
-  © Varios autores
+  ©~\autoresListaH,\space\documentvariable{roles}\\
+  ©~Varios autores
   \blank[big]
   \Word{\documentvariable{edicion}}~edición: \documentvariable{fecha}\\
   \versalita{isbn:} (impreso) {\documentvariable{isbn}}\\
@@ -650,16 +636,19 @@
   parent=colaboradores,
 ]
 
-% Macro para presentar los colaboradores
-\define[1]\usecolaborador{%
+% Macro para presentar los colaboradores con cargo
+\define[1]\Colaborador{%
   \edef\currentcolaborador{#1}{%
     \doifsomething{\colaboradorparameter{rol}}{\colaboradorparameter{rol}:\crlf}
     \doifsomething{\colaboradorparameter{nombre}}{\colaboradorparameter{nombre}\blank[halfline]\par}%
   }%
 }
 
+% Macro para presentar nombre de colaboradores
+\define[1]\NombreColaborador{\edef\currentcolaborador{#1}{\colaboradorparameter{nombre}}}
+
 \startbuffer[legalderecha]
-  \processcommacommand[\documentvariable{colaboradores}]\usecolaborador
+  \processcommacommand[\documentvariable{colaboradores}]\Colaborador
   \blank[2*big]
     \documentvariable{reconocimiento}
 \stopbuffer
@@ -688,6 +677,16 @@
   \thinrule
   \blank[small]
   inp \hfill 08/06/2023
+\stopbuffer
+
+\startbuffer[colofon]
+  Este libro se compuso\\
+  usando tipos Erewhon, \\
+  con el sistema de composición \\
+  tipográﬁca \ctx. \\
+  Se terminó de imprimir \\
+  en los talleres de \NombreColaborador{\documentvariable{impresores}} \\
+  en \documentvariable{fecha}.
 \stopbuffer
 
 % Setups %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -739,13 +738,7 @@
 
 \startsetups[document:stop]
   \startmakeup[colofon]
-      Este libro se compuso\\
-      usando tipos Erewhon, \\
-      con el sistema de composición \\
-      tipográﬁca \ctx. \\
-      Se terminó de imprimir \\
-      en los talleres de \documentvariable{impresores} \\
-      en \documentvariable{fecha}.
+      \getbuffer[colofon]
   \stopmakeup
 \stopsetups
 

@@ -17,7 +17,7 @@
 \definecolaborador[adis][nombre={Andrés Conrado Montoya Acosta}, rol={Diseño de pauta \texthref{\ConTeXt}{http://context.aanhet.net/} y diagramación}]
 \definecolaborador[adia][nombre={Andrés Conrado Montoya Acosta}, rol={Diseño de cubierta}]
 \definecolaborador[ilus][nombre={Andrea Tobacía}, rol={Ilustraciones}]
-\definecolaborador[impr][nombre={\corregir{\documentvariable{impresores}}}, rol={Impresión}]
+\definecolaborador[impr][nombre={DGP Editores S.A.S.}, rol={Impresión}]
 
 % VARIABLES DE DOCUMENTO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -38,17 +38,16 @@
   doi={000-000-000-000-0},
   ejemplares={300},
   edicion={primera},
-  impresores={DGP Editores S.A.S.},
+  colaboradores={ella,adis,adia,ilus,impr},
+  impresores={impr},
   fecha={\currentdate[month,{~de~},year]}, 
   version={1.0.0},
   licencia={MIT},
   copyright={2025 Andrés Conrado Montoya Acosta},
-  colaboradores={ella,adis,adia,ilus,impr},
-  layout={estricto},
   logotipoinstitucion={https://raw.githubusercontent.com/conradolandia/logos-javeriana/main/puj.pdf},
   logotipofacultad={https://raw.githubusercontent.com/conradolandia/logos-javeriana/main/puj_facu.pdf},
   logotipoeditorial={https://raw.githubusercontent.com/conradolandia/logos-javeriana/main/eh.pdf},
-  reconocimiento={Pontificia Universidad Javeriana \| Vigilada Mineducación. Reconocimiento como Universidad: Decreto 1270 del 30 de mayo de 1964. Reconocimiento como personería jurídica: Resolución 73 del 12 de diciembre de 1933 del Ministerio de Gobierno.}
+  reconocimiento={Pontificia Universidad Javeriana \| Vigilada Mineducación. Reconocimiento como Universidad: Decreto 1270 del 30 de mayo de 1964. Reconocimiento como personería jurídica: Resolución 73 del 12 de diciembre de 1933 del Ministerio de Gobierno.},
 ]
 
 % TOC Y LISTAS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
