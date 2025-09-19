@@ -48,6 +48,11 @@
   logotipofacultad={https://raw.githubusercontent.com/conradolandia/logos-javeriana/main/puj_facu.pdf},
   logotipoeditorial={https://raw.githubusercontent.com/conradolandia/logos-javeriana/main/eh.pdf},
   reconocimiento={Pontificia Universidad Javeriana \| Vigilada Mineducación. Reconocimiento como Universidad: Decreto 1270 del 30 de mayo de 1964. Reconocimiento como personería jurídica: Resolución 73 del 12 de diciembre de 1933 del Ministerio de Gobierno.},
+  catalografica={\documentvariable{titulo} / \documentvariable{roles}, \AutoresListaH{\documentvariable{autores}}. --- \Word{\documentvariable{edicion}} edición. ---~Bogotá~: Editorial Pontificia Universidad Javeriana, 2025.},
+  CDD={617.581},
+  CDDEdicion={23},
+  inp={08/06/2023},
+  tematicas={1. Artroplastia de reemplazo de cadera 2. Prótesis de cadera 3. Cirugía operatoria 4. Enfermedades de la articulación de la cadera 5. Cadera - Anatomía 6. Luxación de la~cadera I. Gaitán Lee, Hernando, autor, editor académico II. Sarmiento Osorio, Diana, autora, editora académica III. Pontificia Universidad Javeriana. Bogotá.}
 ]
 
 % TOC Y LISTAS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

@@ -18,55 +18,6 @@
 \definemode[imprenta][keep]
 \definemode[pantalla][keep]
 
-% Namespaces %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Registro de colaboradores
-\definenamespace[colaboradores][
-  type=module,
-  name=colaborador,
-  command=yes,
-  parent=colaboradores,
-]
-
-% Registro de autores
-\definenamespace[autores][
-  type=module,
-  name=autor,
-  command=yes,
-  parent=autores,
-]
-
-% Presentar los autores en orden normal (portadilla)
-\define[1]\AutorNombreApellido{\edef\currentautor{#1}{%
-  \doifsomething{\autorparameter{nombres}}{\autorparameter{nombres}\space}%
-  \doifsomething{\autorparameter{apellidos}}{\autorparameter{apellidos}}%
-}}
-
-\define[1]\AutorNombreApellidoPar{\AutorNombreApellido{#1}\par}
-\define[1]\ListaAutores{{\AutorNombreApellido{#1},\space}}
-
-% Presentar los autores en orden apellido, nombre, rol (ficha catalográfica)
-\define[1]\AutorApellidoNombre{\edef\currentautor{#1}{%
-  \doifsomething{\autorparameter{apellidos}}{\autorparameter{apellidos},\space}%
-  \doifsomething{\autorparameter{nombres}}{%
-    \autorparameter{nombres}, 
-    \doifsomething{\autorparameter{rol}}{%
-      \autorparameter{rol}%
-    }%
-  }%
-}}
-
-% Presentar los colaboradores con rol (página legal)
-\define[1]\Colaborador{\edef\currentcolaborador{#1}{%
-  \doifsomething{\colaboradorparameter{rol}}{\colaboradorparameter{rol}:\crlf}%
-  \doifsomething{\colaboradorparameter{nombre}}{\colaboradorparameter{nombre}\blank[halfline]\endgraf}%
-}}
-
-% Presentar nombre de colaboradores (impresor, otros)
-\define[1]\NombreColaborador{\edef\currentcolaborador{#1}{%
-  \doifsomething{\colaboradorparameter{nombre}}{\colaboradorparameter{nombre}}%
-}}
-
 % Lenguaje %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Configura lenguaje de elementos de texto autogenerados como "Contenido"
@@ -172,10 +123,14 @@
 %\setupinterlinespace[big]
 
 % Comandos para formato
-\define[1]\versalita{{\feature[+][smallcaps]\kerncharacters[0.03]{#1}}}
-\define[1]\osf{{\feature[+][osf]{#1}}}
-\define[1]\tabular{{\feature[+][tabularnumbers] #1}}
-\define[1]\uhy{\unhyphenated{#1}}
+% Versalitas
+\define[1]\versalita{\start\feature[+][smallcaps]\kerncharacters[0.03]#1\stop}
+% Números old-style
+\define[1]\osf{\start\feature[+][osf]#1\stop}
+% Números tabulares
+\define[1]\tlf{\start\feature[+][tabularnumbers]#1\stop}
+% Alias corto para \unhyphenated
+\let\uhy\unhyphenated
 
 % highlights semanticos
 \definehighlight[emph][style={\em}]
@@ -197,8 +152,6 @@
   state=start,
   style={\tf},
   title={\getvariable{document}{title}},
-  subtitle={\getvariable{document}{subtitle}},
-  author={\autoresListaH},
   color=negro,
   contrastcolor=negro,
 ]
@@ -272,8 +225,8 @@
 % Formato de encabezados, pies y cornisas %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Autores de capitulo
-\def\SectionAuthor{\dosingleempty\doSectionAuthor}
-\def\doSectionAuthor[#1]#2{%
+\def\AutorCapitulo{\dosingleempty\doAutorCapitulo}
+\def\doAutorCapitulo[#1]#2{%
   \start\switchtobodyfont[10pt]%
   \doifsomethingelse{#1}
     {\emph{#2}\\\switchtobodyfont[8pt] #1}
@@ -281,10 +234,10 @@
   \stop\par%
 }
 
+\definestartstop[autores][before={\startalignment[flushright]}, after={\stopalignment}]
+
 % Macro para números de capitulo terminados en punto {.}
 \def\chapterNumber#1{#1.}
-
-\definestartstop[autores][before={\startalignment[flushright]}, after={\stopalignment}]
 
 % Capitulos no numerados pero que salen en la ToC
 \definehead[sinnumerar][chapter]
@@ -310,7 +263,7 @@
 \startsetups[chapter:after]
   \blank[line]
   \startautores
-    \SectionAuthor[\structureuservariable{afiliacion}]
+    \AutorCapitulo[\structureuservariable{afiliacion}]
       {\commalistsentence[\structureuservariable{autores}][{,\space},{\space y~}]}
   \stopautores
   \blank[6*line]
@@ -649,6 +602,74 @@
                footerstate=empty,
                pagestate=start]
 
+% Namespaces %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Registro de colaboradores
+\definenamespace[colaboradores][
+  type=module,
+  name=colaborador,
+  command=yes,
+  parent=colaboradores,
+]
+
+% Registro de autores
+\definenamespace[autores][
+  type=module,
+  name=autor,
+  command=yes,
+  parent=autores,
+]
+
+% Presentar los colaboradores con rol (página legal)
+\define[1]\Colaborador{\edef\currentcolaborador{#1}{%
+  \doifsomething{\colaboradorparameter{rol}}{\colaboradorparameter{rol}:\crlf}%
+  \doifsomething{\colaboradorparameter{nombre}}{\colaboradorparameter{nombre}\blank[halfline]\endgraf}%
+}}
+
+% Presentar nombre de colaborador (impresor, otros)
+\define[1]\NombreColaborador{\edef\currentcolaborador{#1}{%
+  \doifsomething{\colaboradorparameter{nombre}}{\colaboradorparameter{nombre}}%
+}}
+
+\starttexdefinition AutorNombreApellido #1
+    \edef\currentautor{#1}%
+    \unless\ifempty{\autorparameter{nombres}}
+        \autorparameter{nombres}
+        \space
+    \fi
+    \unless\ifempty{\autorparameter{apellidos}}
+        \autorparameter{apellidos}
+    \fi
+\stoptexdefinition
+
+\starttexdefinition AutorEnListaH #1
+     \advance\scratchcountertwo\plusone
+     \ifnum\scratchcountertwo=\plusone
+         % nothing
+     \orelse\ifnum\scratchcountertwo=\scratchcounterone
+         %\space\letterampersand\space
+         \space{y}\space
+     \else
+         ,\space
+     \fi
+     \AutorNombreApellido{#1}%
+\stoptexdefinition
+
+\starttexdefinition AutoresListaH #1
+     \getcommacommandsize[#1]%
+     \scratchcounterone\commalistsize
+     \scratchcountertwo\zerocount
+     \processcommacommand[#1]\AutorEnListaH
+\stoptexdefinition
+
+\starttexdefinition AutorEnListaV #1
+     \AutorNombreApellido{#1}\par
+\stoptexdefinition
+
+\starttexdefinition AutoresListaV #1
+     \processcommacommand[#1]\AutorEnListaV
+\stoptexdefinition
+
 % Buffers %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \startbuffer[editorial]
@@ -662,7 +683,7 @@
 \startbuffer[legalizquierda]
   Reservados todos los derechos\\
   ©~\documentvariable{copyright}\\
-  ©~\autoresListaH\space\documentvariable{roles}\\
+  ©~\AutoresListaH{\documentvariable{autores}},\space\documentvariable{roles}\\
   ©~Varios autores
   \blank[big]
   \Word{\documentvariable{edicion}}~edición: \documentvariable{fecha}\\
@@ -692,29 +713,29 @@
   \stop
   \blank[big]
   \startparagraph
-    Useche Gómez, Luis Fernando, autor, editor académico
+    \AutoresListaH{\documentvariable{autores}}, \commalistsentence[\documentvariable{roles}]
   \stopparagraph
   \startparagraph
-    Técnicas de cirugía de cadera / autores, Luis Fernando Useche Gómez {[}y otros diez{]} ; editores académicos, Luis Fernando Useche Gómez, Hernando Gaitán Lee, Diana Sarmiento Osorio. --- Primera edición. ---~Bogotá~: Editorial Pontificia Universidad Javeriana, 2023.
+    \documentvariable{catalografica}
   \stopparagraph
   \blank[big]
   \totalnumberofpages~páginas~; ilustraciones, Fotografías~; 17~×~24\,cm.\par
   \versalita{ISBN}: \documentvariable{isbn} (impreso)\par
   \versalita{ISBN}: \documentvariable{isbne} (electrónico)\par
   \blank[big]
-  1. Artroplastia de reemplazo de cadera 2. Prótesis de cadera 3. Cirugía operatoria 4. Enfermedades de la articulación de la cadera 5. Cadera - Anatomía 6. Luxación de la~cadera I. Gaitán Lee, Hernando, autor, editor académico II. Sarmiento Osorio, Diana, autora, editora académica III. Pontificia Universidad Javeriana. Bogotá.\par
+  \documentvariable{tematicas}
   \blank[big]
-  CDD 617.581 edición 23\crlf
+  CDD~\documentvariable{CDD} edición \documentvariable{CDDEdicion}\crlf
   \thinrule
   \blank[small]
-  inp \hfill 08/06/2023
+  inp \hfill \documentvariable{inp}
 \stopbuffer
 
 \startbuffer[colofon]
   Este libro se compuso\\
   usando tipos Erewhon, \\
   con el sistema de composición \\
-  tipográﬁca \ctx. \\
+  tipográﬁca \CONTEXTLINK. \\
   Se terminó de imprimir \\
   en los talleres de \NombreColaborador{\documentvariable{impresores}} \\
   en \documentvariable{fecha}.
@@ -741,7 +762,7 @@
     \blank[3cm]
     \start
       \switchtobodyfont[12pt]
-      \grismedio{\versalita{\autoresListaV}}
+      \grismedio{\versalita{\AutoresListaV{\documentvariable{autores}}}}
       \small\grisoscuro\Word{\documentvariable{roles}}
     \stop
     \blank[9cm]
@@ -776,13 +797,7 @@
 % Macros adicionales %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % ConTeXt logo con enlace
-\define\ctx{\texthref{\CONTEXT}{https://context.aanhet.net/}}
-
-% Listas de autores
-\define\autoresListaV{\processcommacommand[\documentvariable{autores}]\AutorNombreApellidoPar}
-%\define\autoresListaH{\commalistsentence[\documentvariable{autores}][{,\space},{\space{}y~}]}
-\define\autoresListaH{\processcommacommand[\documentvariable{autores}]\ListaAutores}
-%\commalistsentence[][{,\space},{\space{}y~}]
+\define\CONTEXTLINK{\texthref{\CONTEXT}{https://context.aanhet.net/}}
 
 % Macros para hyperlinks
 \define[1]\href{\bgroup\startasciimode\goto{\hyphenatedurl{#1}}[url(#1)]\stopasciimode\egroup}
