@@ -4,7 +4,7 @@
 %C Copyright (c) 2025 Andrés Conrado Montoya Acosta (github.com/conradolandia)
 %C andi@sesentaycuatro.com | sesentaycuatro.com
 %C Creado con ConTeXt LMTX (https://wiki.contextgarden.net/)
-%C Versión: 0.1.0
+%C Versión: 0.1.4
 %C Licencia: MIT
 %C
 %C Este módulo proporciona estilos y configuraciones para la composición de
@@ -337,31 +337,21 @@
   align={flushright,nothyphenated,verytolerant},
   beforesection=\directsetup{chapter:before},
   number=yes,
-  style=\bfc,
+  style=\bfb,
   header=empty,
   deepnumbercommand={\chapterNumber},
   after=\directsetup{chapter:after},
 ]
 
 % Configuración de capítulos sin numerar y títulos
-\setuphead[sinnumerar,title]
-          [after={\blank[8*line]}]
+\setuphead[sinnumerar,title][after={\blank[8*line]}]
 
 % Configuración de secciones
-\setuphead[section]
-          [style={\bfa}]
-
-\setuphead[subsection]
-          [style=boldslanted]
-
-\setuphead[subsubsection]
-          [style=,deeptextcommand={\versalita}]
-
-\setuphead[subsubsubsection]
-          [style=slanted]
-
-\setuphead[subsubsubsubsection]
-          [style=italic]
+\setuphead[section][style={\bfa}]
+\setuphead[subsection][style=boldslanted]
+\setuphead[subsubsection][style=,deeptextcommand={\versalita}]
+\setuphead[subsubsubsection][style=slanted]
+\setuphead[subsubsubsubsection][style=italic]
 
 % Configuración de numeración de páginas
 \setuppagenumbering[alternative=doublesided,location=]
@@ -372,12 +362,46 @@
 % Configuración de pies de página con información del documento y navegación
 
 % Definir marco para pies de página
-\defineframed[footers]
-[frame=off,roffset=4pt,loffset=4pt,toffset=0pt,boffset=0pt,strut=global,height=12pt,width=fit]
+\defineframed[footers][
+  frame=off,
+  roffset=4pt,
+  loffset=4pt,
+  toffset=0pt,
+  boffset=0pt,
+  strut=global,
+  height=12pt,
+  width=fit,
+]
 
 % Definir contenido de pies de página
-\define\lfoot{{\footers[rightframe=on,loffset=-4pt,roffset=3pt]{\small\osf{\pagenumber}}}{\expanded{\footers[leftframe=on]{\small\grisoscuro{\getvariable{document}{title}}}}}}
-\define\rfoot{{\expanded{\footers[rightframe=on]{\small\grisoscuro{\getmarking[chapter]}}}}{\footers[leftframe=on,loffset=2pt,roffset=-2pt]{\small\osf{\pagenumber}}}}
+\define\lfoot{%
+  {%
+    \footers[rightframe=on,loffset=-4pt,roffset=3pt]{%
+      \small\osf{\pagenumber}%
+    }%
+  }%
+  {%
+    \expanded{%
+      \footers[leftframe=on]{%
+        \small\grisoscuro{\documentvariable{titulo}}%
+      }%
+    }%
+  }%
+}
+\define\rfoot{%
+  {%
+    \expanded{%
+      \footers[rightframe=on]{%
+        \small\grisoscuro{\getmarking[chapter]}%
+      }%
+    }%
+  }%
+  {%
+    \footers[leftframe=on,loffset=2pt,roffset=-2pt]{%
+      \small\osf{\pagenumber}%
+    }%
+  }%
+}
 
 % Activar configuraciones generales de encabezados y pies
 \setupheadertexts[][][][]
@@ -438,7 +462,7 @@
 
 % Añadir autores de capítulo a la lista TOC
 % Se agregan autores como un par adicional de corchetes en el título, ejemplo:
-% \startchapter[title={Something}][autores={{John Smith, MD},{Micke Stronberg, MD},{Uma Thurman, MD}}]
+% \startchapter[title={Something}][autores={{Rauno Seitseminen, MD},{Micke Stronberg, MD},{Uma Öst, MD}}]
 \newdimen\ChapterEntryWidth
 \ChapterEntryWidth=16pt
 \define[1]\SectionTocEntry{%
@@ -519,7 +543,7 @@
 \defineexternalfigure[logotipo][maxwidth=.4\textwidth]
 
 % Ubicación por defecto de flotantes
-\setupfloat[figure,table][default={here}]
+\setupfloat[figure,table][default={here},location={center,max}]
 
 % Configuración de títulos de flotantes
 \setupcaptions[
@@ -532,6 +556,7 @@
   suffixseparator={.},
   distance={.5em},
   align={middle,nothyphenated,verytolerant,stretch},
+  inbetween={\blank[big]},
 ]
 
 % Configuración de títulos de tablas
@@ -618,17 +643,15 @@
 % ============================================================================
 % Comandos para especificar fuentes y autoría de elementos gráficos
 
-% Comandos para fuentes de tablas (sin "Fuente:")
-\define[1]\fuentent{\start\setupalign[middle,nothyphenated,verytolerant,stretch]\switchtobodyfont[8pt]#1\par\stop}
-\define[1]\fuente{\start\setupalign[middle,nothyphenated,verytolerant,stretch]\switchtobodyfont[8pt]\emph{Fuente:}~#1\par\stop}
+% Comandos para fuentes de figuras/tablas (sin "Fuente:")
+\define[1]\fuentent{\start\setupalign[middle,nothyphenated,verytolerant,stretch]\switchtobodyfont[8pt]#1\stop}
+\define[1]\xfuentent{\start\setupalign[middle,nothyphenated,verytolerant,stretch]#1\stop}
+\define[1]\fuentefignt{\par\blank[2pt]\start\switchtobodyfont[8pt]#1\stop}
 
-% Comandos para fuentes de xtables (sin "Fuente:")
-\define[1]\xfuentent{\start\setupalign[middle,nothyphenated,verytolerant,stretch]#1\par\stop}
-\define[1]\xfuente{\start\setupalign[middle,nothyphenated,verytolerant,stretch]\emph{Fuente:}~#1\par\stop}
-
-% Comandos para fuentes de figuras
-\define[1]\fuentefignt{\par\blank[2pt]\start\switchtobodyfont[8pt]#1\par\stop}
-\define[1]\fuentefig{\par\blank[2pt]\start\switchtobodyfont[8pt]\emph{Fuente:}~#1\par\stop}
+% Comandos para fuentes de figuras/tablas (con "Fuente:")
+\define[1]\fuente{\startframed[strut=no,frame=off,align=middle,width=max]\switchtobodyfont[8pt]\emph{Fuente:}~#1\stopframed}
+\define[1]\xfuente{\start\setupalign[middle,nothyphenated,verytolerant,stretch]\emph{Fuente:}~#1\stop}
+\define[1]\fuentefig{\par\blank[2pt]\start\switchtobodyfont[8pt]\emph{Fuente:}~#1\stop}
 
 % Comandos predefinidos para elaboración propia
 \define\propia{\fuentefig{elaboración propia.}}
@@ -691,7 +714,7 @@
 
 \definemakeup [colofon][
   align=center,
-  doublesided=no,
+  doublesided=empty,
   headerstate=empty,
   footerstate=empty,
   page=left,
@@ -914,6 +937,7 @@
 
 % Setup para fin del documento
 \startsetups[document:stop]
+  \doifoddpageelse{}{\page[yes,header,footer,left]}
   \startmakeup[colofon]
       \getbuffer[colofon]
   \stopmakeup

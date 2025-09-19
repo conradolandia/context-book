@@ -1,9 +1,195 @@
+\useMPlibrary [dum]  %% sample images
 
-\startchapter[title={Aparato extensor de la muñeca, la mano y los dedos}]
-    [autores={{Dr.~Carlos Rueda},{Dr.~Juan Rios},{Dr.~Julio Sandoval}},afiliacion={Universidad de los Andes}]
+\startchapter[title={Arquitecturas de Sistemas Distribuidos}]
+    [autores={{Dr.~María González, Ph.D.},{Ing.~Carlos Mendoza, M.Sc.},{Dr.~Ana Rodríguez, Ph.D.}},afiliacion={Universidad Nacional de Colombia}]
 
-El pulgar es estudiado en un capítulo aparte. \input cervantes-es\par
+Los sistemas distribuidos representan uno de los paradigmas más importantes en la ingeniería de software moderna. Estos sistemas permiten la coordinación de múltiples componentes computacionales que se ejecutan en diferentes nodos de red, proporcionando escalabilidad, tolerancia a fallos y disponibilidad mejorada\footnote{La definición formal de sistema distribuido fue establecida por Leslie Lamport en 1985.}.
 
-Una plantilla para libros técnicos, elaborada en \ConTeXt{} \LMTX
+\startsection[title={Fundamentos Teóricos}]
+
+Los sistemas distribuidos se basan en varios principios fundamentales que determinan su comportamiento y capacidades. Entre estos principios destacan la transparencia, la concurrencia y la tolerancia a fallos\footnote{Ver \cite{tanenbaum2017distributed} para una discusión detallada de estos principios.}.
+
+\startitemize
+  \item \strong{Transparencia de ubicación}: Los usuarios no necesitan conocer la ubicación física de los recursos
+  \item \strong{Transparencia de acceso}: Los recursos se acceden de manera uniforme independientemente de su implementación
+  \item \strong{Transparencia de concurrencia}: Múltiples usuarios pueden acceder simultáneamente a los recursos
+  \item \strong{Transparencia de replicación}: Los recursos pueden estar duplicados en múltiples ubicaciones
+\stopitemize
+
+\startsection[title={Modelos de Comunicación}]
+
+Los sistemas distribuidos implementan diferentes modelos de comunicación que determinan cómo los componentes interactúan entre sí.
+
+\startplacetable[title={Modelos de comunicación en sistemas distribuidos},list={Modelos de comunicación}]
+  \bTABLE
+    \bTR
+      \bTD \bf Modelo \eTD
+      \bTD \bf Características \eTD
+      \bTD \bf Ventajas \eTD
+      \bTD \bf Desventajas \eTD
+    \eTR
+    \bTR
+      \bTD Cliente-Servidor \eTD
+      \bTD Comunicación síncrona \eTD
+      \bTD Simplicidad \eTD
+      \bTD Punto único de fallo \eTD
+    \eTR
+    \bTR
+      \bTD Peer-to-Peer \eTD
+      \bTD Comunicación descentralizada \eTD
+      \bTD Escalabilidad \eTD
+      \bTD Complejidad de gestión \eTD
+    \eTR
+    \bTR
+      \bTD Publish-Subscribe \eTD
+      \bTD Comunicación asíncrona \eTD
+      \bTD Desacoplamiento \eTD
+      \bTD Overhead de mensajería \eTD
+    \eTR
+    \bTR
+      \bTD Microservicios \eTD
+      \bTD Servicios independientes \eTD
+      \bTD Flexibilidad \eTD
+      \bTD Complejidad operacional \eTD
+    \eTR
+  \eTABLE
+\stopplacetable
+\propiat
+
+\startsection[title={Protocolos de Consenso}]
+
+Los protocolos de consenso son fundamentales para mantener la consistencia en sistemas distribuidos. El algoritmo Raft\footnote{Desarrollado por Diego Ongaro y John Ousterhout en 2014.} ha ganado popularidad por su simplicidad comparado con Paxos.
+
+\startplacefigure[title={Diagrama de estados del algoritmo Raft\propia},list={Estados del algoritmo Raft}]
+  \externalfigure[dummy][width=0.8\textwidth]
+\stopplacefigure
+
+\stopsection
 
 \stopchapter
+
+\startchapter[title={Microservicios y Contenedores}]
+    [autores={{Ing.~Roberto Silva, M.Sc.},{Dr.~Patricia López, Ph.D.}},afiliacion={Universidad de los Andes}]
+
+La arquitectura de microservicios ha revolucionado la forma en que se diseñan y despliegan las aplicaciones modernas. Esta arquitectura promueve el desarrollo de aplicaciones como un conjunto de servicios pequeños, independientes y débilmente acoplados\footnote{Martin Fowler popularizó el término "microservicios" en 2014.}.
+
+\startsection[title={Principios de Diseño}]
+
+Los microservicios siguen varios principios de diseño que los distinguen de las arquitecturas monolíticas tradicionales:
+
+\startitemize
+  \item \strong{Responsabilidad única}: Cada servicio tiene una responsabilidad específica
+  \item \strong{Autonomía}: Los servicios pueden desarrollarse, desplegarse y escalarse independientemente
+  \item \strong{Descentralización}: No hay una base de datos centralizada
+  \item \strong{Tolerancia a fallos}: El sistema debe continuar funcionando aunque algunos servicios fallen
+\stopitemize
+
+\startsection[title={Contenedores y Orquestación}]
+
+Los contenedores han facilitado significativamente el despliegue y gestión de microservicios. Docker se ha convertido en el estándar de facto para la contenedorización\footnote{Docker fue lanzado en 2013 por Solomon Hykes.}.
+
+\startplacetable[title={Tecnologías de contenedores y orquestación},list={Tecnologías de contenedores}]
+  \bTABLE
+    \bTR
+      \bTD \bf Tecnología \eTD
+      \bTD \bf Características \eTD
+      \bTD \bf Casos de Uso \eTD
+    \eTR
+    \bTR
+      \bTD Docker \eTD
+      \bTD Contenedores ligeros \eTD
+      \bTD Desarrollo local \eTD
+    \eTR
+    \bTR
+      \bTD Kubernetes \eTD
+      \bTD Orquestación automática \eTD
+      \bTD Producción \eTD
+    \eTR
+    \bTR
+      \bTD Docker Swarm \eTD
+      \bTD Orquestación nativa \eTD
+      \bTD Entornos simples \eTD
+    \eTR
+  \eTABLE
+\stopplacetable
+\propiat
+
+\startsection[title={Patrones de Comunicación}]
+
+Los microservicios implementan diversos patrones de comunicación para mantener la cohesión del sistema:
+
+\description{API Gateway} Punto de entrada único que enruta las peticiones a los microservicios apropiados
+\description{Service Mesh} Infraestructura de red que maneja la comunicación entre servicios
+\description{Event Sourcing} Almacenamiento de eventos como fuente de verdad del estado del sistema
+\description{CQRS} Separación de comandos y consultas para optimizar el rendimiento
+
+\stopsection
+
+\stopchapter
+
+\startchapter[title={Seguridad en Sistemas Distribuidos}]
+    [autores={{Dr.~Fernando Castro, Ph.D.},{Ing.~Sandra Morales, M.Sc.}},afiliacion={Universidad Javeriana}]
+
+La seguridad en sistemas distribuidos presenta desafíos únicos debido a la naturaleza distribuida de los componentes y la comunicación a través de redes potencialmente inseguras\footnote{El modelo de amenazas en sistemas distribuidos fue formalizado por Butler Lampson en 1983.}.
+
+\startsection[title={Amenazas y Vulnerabilidades}]
+
+Los sistemas distribuidos enfrentan múltiples tipos de amenazas que no existen en sistemas centralizados:
+
+\startitemize
+  \item \strong{Ataques de red}: Interceptación, modificación o denegación de mensajes
+  \item \strong{Suplantación de identidad}: Ataques donde un atacante se hace pasar por un componente legítimo
+  \item \strong{Replay attacks}: Reutilización de mensajes capturados para obtener acceso no autorizado
+  \item \strong{Denial of Service}: Ataques que impiden el funcionamiento normal del sistema
+\stopitemize
+
+\startsection[title={Mecanismos de Seguridad}]
+
+Para mitigar estas amenazas, los sistemas distribuidos implementan diversos mecanismos de seguridad:
+
+\startplacefigure[title={Capas de seguridad en sistemas distribuidos\propia},list={Arquitectura de seguridad}]
+  \externalfigure[dummy][width=0.9\textwidth]
+\stopplacefigure
+
+\startsection[title={Autenticación y Autorización}]
+
+La autenticación y autorización en sistemas distribuidos requieren protocolos especializados que manejen la identidad de múltiples componentes:
+
+\startplacetable[title={Protocolos de autenticación y autorización},list={Protocolos de seguridad}]
+  \bTABLE
+    \bTR
+      \bTD \bf Protocolo \eTD
+      \bTD \bf Tipo \eTD
+      \bTD \bf Fortalezas \eTD
+      \bTD \bf Limitaciones \eTD
+    \eTR
+    \bTR
+      \bTD OAuth 2.0 \eTD
+      \bTD Autorización \eTD
+      \bTD Estándar ampliamente adoptado \eTD
+      \bTD Complejidad de implementación \eTD
+    \eTR
+    \bTR
+      \bTD JWT \eTD
+      \bTD Token \eTD
+      \bTD Stateless, escalable \eTD
+      \bTD Tamaño del token \eTD
+    \eTR
+    \bTR
+      \bTD SAML \eTD
+      \bTD Federación \eTD
+      \bTD Interoperabilidad \eTD
+      \bTD Complejidad XML \eTD
+    \eTR
+    \bTR
+      \bTD OpenID Connect \eTD
+      \bTD Autenticación \eTD
+      \bTD Simplicidad \eTD
+      \bTD Dependencia de OAuth \eTD
+    \eTR
+  \eTABLE
+  \propia
+\stopplacetable
+
+\stopchapter
+
