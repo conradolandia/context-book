@@ -1,39 +1,58 @@
+%C ============================================================================
 %C Módulo estilístico para libros técnicos
+%C ============================================================================
 %C Copyright (c) 2025 Andrés Conrado Montoya Acosta (github.com/conradolandia)
 %C andi@sesentaycuatro.com | sesentaycuatro.com
 %C Creado con ConTeXt LMTX (https://wiki.contextgarden.net/)
 %C Versión: 0.0.2
 %C Licencia: MIT
+%C
+%C Este módulo proporciona estilos y configuraciones para la composición de
+%C libros técnicos en español, incluyendo:
+%C - Configuración tipográfica con fuente Erewhon
+%C - Layout optimizado para libros técnicos
+%C - Elementos de contenido (tablas, figuras, listas)
+%C - Páginas especiales (portada, legal, colofón)
+%C - Gestión de autores y colaboradores
+%C - Soporte para múltiples modos (PDF/A, imprenta, pantalla)
+%C ============================================================================
 
 \startmodule[libro-tecnico]
 
-% Paths adicionales de búsqueda de archivos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% CONFIGURACIÓN BÁSICA
+% ============================================================================
+% Configuración inicial del módulo, paths y modos de compilación
 
+% Paths adicionales de búsqueda de archivos
 \usepath[contenido]
 \setupexternalfigures[directory={include,media,img},order={pdf,svg,png,jpg}]
 
-% Modos de compilación %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Modos de compilación
+% Define modos especiales para diferentes tipos de salida
+\definemode[pdfa][keep]      % PDF/A para archivo
+\definemode[imprenta][keep]  % Modo imprenta con marcas de corte
+\definemode[pantalla][keep]  % Modo pantalla (por defecto)
 
-\definemode[pdfa][keep]
-\definemode[imprenta][keep]
-\definemode[pantalla][keep]
-
-% Lenguaje %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% CONFIGURACIÓN DE IDIOMA
+% ============================================================================
+% Configuración del español como idioma principal y reglas tipográficas
 
 % Configura lenguaje de elementos de texto autogenerados como "Contenido"
 \mainlanguage[es] 
 
-% Cambia reglas de partición de palabras, y reglas tipográficas 
-% (comillas, espacio depsues de puntuaciones, ese tipo de cosas)
+% Cambia reglas de partición de palabras y reglas tipográficas 
+% (comillas, espacio después de puntuaciones, etc.)
 \language[es] 
 
-% configura mínimos de particion de palabras
+% Configura mínimos de partición de palabras
 \setuplanguage[es][hyphenmin=5] 
 
-% usar guiones existentes para partir palabras
+% Usar guiones existentes para partir palabras
 \setbreakpoints[compound]
 
-% Excepciones generales de particion de palabras
+% Excepciones específicas de partición de palabras para términos técnicos
 \hyphenation{ar-ticu-lar}
 \hyphenation{ar-ticu-la}
 \hyphenation{ar-ticu-la-res}
@@ -47,25 +66,30 @@
 \hyphenation{ana-tómi-cos}
 \hyphenation{or-tope-dia}
 
-% Colores %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% SISTEMA DE COLORES
+% ============================================================================
+% Definición de colores base y semánticos para el documento
 
+% Activar paleta de colores Crayola
 \usecolors[crayola]
 
+% Colores base
 \definecolor[rojo][darkred]
 \definecolor[negro][black]
 \definecolor[blanco][white]
 \definecolor[corregir][magenta]
 
-% grises
-\definecolor[casinegro][s=0.03]
-\definecolor[grisoscuro][s=0.3]
-\definecolor[grismedio][s=0.5]
-\definecolor[grisclaro][s=0.7]
-\definecolor[grismuyclaro][s=0.8]
-\definecolor[grismuymuyclaro][s=0.94]
-\definecolor[casiblanco][s=0.98]
+% Escala de grises (de más claro a más oscuro)
+\definecolor[casiblanco][s=0.98]        % Casi blanco
+\definecolor[grismuymuyclaro][s=0.94]   % Gris muy muy claro
+\definecolor[grismuyclaro][s=0.8]       % Gris muy claro
+\definecolor[grisclaro][s=0.7]          % Gris claro
+\definecolor[grismedio][s=0.5]          % Gris medio
+\definecolor[grisoscuro][s=0.3]         % Gris oscuro
+\definecolor[casinegro][s=0.03]         % Casi negro
 
-% usos semanticos
+% Highlights semánticos para uso en el texto
 \definehighlight[rojo][color=rojo]
 \definehighlight[negro][color=negro]
 \definehighlight[blanco][color=blanco]
@@ -78,52 +102,58 @@
 \definehighlight[casinegro][color=casinegro]
 \definehighlight[corregir][color=corregir]
 
+% Color de texto por defecto
 \setupcolors[textcolor=negro]
 
-% Tipografía %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% CONFIGURACIÓN TIPOGRÁFICA
+% ============================================================================
+% Configuración de fuentes, características tipográficas y espaciado
 
-% Font features
+% Características de fuente por defecto
 \definefontfeature[default][default][
-    protrusion=punctuation,
-    textitalics=yes,
-    case=yes,
+    protrusion=punctuation,  % Protrusión de puntuación
+    textitalics=yes,         % Itálicas automáticas
+    case=yes,                % Soporte para mayúsculas/minúsculas
 ]
 
+% Características para versalitas
 \definefontfeature[smallcaps][smallcaps][
-    cpsp=yes,
-    c2sc=yes,
+    cpsp=yes,                % Espaciado de versalitas
+    c2sc=yes,                % Conversión a versalitas
 ]
 
+% Números old-style y características matemáticas
 \definefontfeature[osf][default][onum=yes]
 \definefontfeature[mathextra][italicwidths=yes]
 
-% Ajustes para itálicas y otros
+% Configuración de itálicas
 \setupbodyfontenvironment[default][em=italic]
 \setupitaliccorrection[global,always]
 
-% Fuente principal
+% Fuente principal: Erewhon
 \loadtypescriptfile[erewhon]
 \setupbodyfont[erewhon,11pt]
 
-% Ajustes generales
+% Configuración general de alineación y capitales
 \setupalign[hz,hanging,tolerant]
 \setupcapitals[sc=yes]
 
-% Espacios y sangrías
+% Espaciado y sangrías
 \setupwhitespace[medium]
 \setupindenting[no]
 
-% Espacios horizontales
+% Espacios horizontales predefinidos
 \definehspace[dosem][2em]
 \definehspace[tresem][3em]
 \definehspace[doscm][2cm]
 \definehspace[trescms][3cm]
 
-% Interlineado
+% Interlineado (comentado por defecto)
 %\setupinterlinespace[big]
 
-% Comandos para formato
-% Versalitas
+% Comandos tipográficos especializados
+% Versalitas con kerning
 \define[1]\versalita{\start\feature[+][smallcaps]\kerncharacters[0.03]#1\stop}
 % Números old-style
 \define[1]\osf{\start\feature[+][osf]#1\stop}
@@ -132,22 +162,25 @@
 % Alias corto para \unhyphenated
 \let\uhy\unhyphenated
 
-% highlights semanticos
+% Highlights semánticos para énfasis
 \definehighlight[emph][style={\em}]
 \definehighlight[strong][style={\bf}]
 \definehighlight[bemph][style={\bf\em}]
 
-% Blockquotes
+% Configuración de blockquotes
 \setupdelimitedtext[blockquote][style={\switchtobodyfont[10pt]}]
 
-% Comandos para kerning
+% Comandos para ajuste de kerning
 \define[1]\apretar{\kerncharacters[-0.01]{#1}}
 \define[1]\apretarmas{\kerncharacters[-0.02]{#1}}
 \define[1]\apretarmucho{\kerncharacters[-0.03]{#1}}
 
-% Hipervínculos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% HIPERVÍNCULOS Y NAVEGACIÓN
+% ============================================================================
+% Configuración de enlaces, marcadores y navegación del documento
 
-% Activar hyperlinks
+% Activar hipervínculos
 \setupinteraction[
   state=start,
   style={\tf},
@@ -169,16 +202,19 @@
 \placebookmarks[chapter,section,subsection][chapter]
 \setuptagging[state=start]
 
-% Layout %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% CONFIGURACIÓN DE LAYOUT
+% ============================================================================
+% Configuración del tamaño de página, márgenes y distribución del contenido
 
-% Configurar tamaño de página
+% Configurar tamaño de página personalizado para libros técnicos
 \definepapersize[libro][width=170mm,height=240mm]
 \setuppapersize[libro][libro]
 
-% Configurar tolerancia
+% Configurar tolerancia de espaciado
 \setuptolerance[tolerant,stretch]
 
-% Evitar viudas, huérfanos, y malas particiones de palabras
+% Setup estricto para evitar viudas, huérfanos y malas particiones
 \startsetups[estricto]
   \setdefaultpenalties
   \setpenalties\widowpenalties{2}{1000000}
@@ -189,7 +225,7 @@
   \setbreakpoints[compound]
 \stopsetups
 
-% Configurar layout
+% Configurar layout principal
 \setuplayout[
   marking=off,
   topspace=5mm,
@@ -203,8 +239,12 @@
   setups=layout:estricto,
 ]
 
-% Configuración de backend (PDF/A) %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% CONFIGURACIONES ESPECIALES POR MODO
+% ============================================================================
+% Configuraciones específicas para diferentes modos de compilación
 
+% Configuración de backend para PDF/A
 \startmode[pdfa]
   \setupbackend[
     format={pdf/a-1b:2005},
@@ -214,17 +254,19 @@
   \setupstructure[state=start,method=auto]
 \stopmode
 
-% Configurar layout para imprenta %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% Configuración para modo imprenta
 % Con marcas de corte y montado en tamaño carta
 \startmode[imprenta]
   \setuppapersize[libro][letter]
   \setuplayout[location=middle, marking=on]
 \stopmode
 
-% Formato de encabezados, pies y cornisas %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% ENCABEZADOS Y PIES DE PÁGINA
+% ============================================================================
+% Configuración de encabezados, pies de página y elementos de navegación
 
-% Autores de capitulo
+% Autores de capítulo
 \def\AutorCapitulo{\dosingleempty\doAutorCapitulo}
 \def\doAutorCapitulo[#1]#2{%
   \start\switchtobodyfont[10pt]%
@@ -234,12 +276,13 @@
   \stop\par%
 }
 
+% Definir entorno para autores
 \definestartstop[autores][before={\startalignment[flushright]}, after={\stopalignment}]
 
-% Macro para números de capitulo terminados en punto {.}
+% Macro para números de capítulo terminados en punto
 \def\chapterNumber#1{#1.}
 
-% Capitulos no numerados pero que salen en la ToC
+% Capítulos no numerados pero que aparecen en la ToC
 \definehead[sinnumerar][chapter]
 \setuphead[sinnumerar][incrementnumber=list]
 
@@ -251,8 +294,7 @@
   subsubsubsubsection,
 ][number=no,align={flushleft,nothyphenated,verytolerant,stretch}]
 
-% Estilo de capítulo %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% Estilos de capítulo y secciones
 \startsetups[chapter:before]
   \page
   \doifoddpageelse
@@ -269,12 +311,15 @@
   \blank[6*line]
 \stopsetups
 
-% Makeup para partes %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% Makeup para partes
 \definemakeup[part][align=middle,pagestate=start]
 
-% Setuphead(s) para cap., sec., etc. %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% CONFIGURACIÓN DE CABECERAS Y SECCIONES
+% ============================================================================
+% Estilos y configuraciones para todos los niveles de seccionado
 
+% Configuración de partes
 \setuphead[part]
           [placehead=yes,
           beforesection=\directsetup{chapter:before},
@@ -286,6 +331,7 @@
           before=\startpartmakeup,
           after=\stoppartmakeup]
 
+% Configuración de capítulos
 \setuphead[chapter]
           [align={flushright,nothyphenated,verytolerant},
           beforesection=\directsetup{chapter:before},
@@ -297,9 +343,11 @@
           deepnumbercommand={\chapterNumber},
           after=\directsetup{chapter:after}]
 
+% Configuración de capítulos sin numerar y títulos
 \setuphead[sinnumerar,title]
           [after={\blank[8*line]}]
 
+% Configuración de secciones
 \setuphead[section]
           [style={\bfa}]
 
@@ -315,26 +363,35 @@
 \setuphead[subsubsubsubsection]
           [style=italic]
 
+% Configuración de numeración de páginas
 \setuppagenumbering[alternative=doublesided,location=]
 
-% Configuración de pies de página %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% CONFIGURACIÓN DE PIES DE PÁGINA
+% ============================================================================
+% Configuración de pies de página con información del documento y navegación
 
+% Definir marco para pies de página
 \defineframed[footers]
 [frame=off,roffset=4pt,loffset=4pt,toffset=0pt,boffset=0pt,strut=global,height=12pt,width=fit]
 
+% Definir contenido de pies de página
 \define\lfoot{{\footers[rightframe=on,loffset=-4pt,roffset=3pt]{\small\osf{\pagenumber}}}{\expanded{\footers[leftframe=on]{\small\grisoscuro{\getvariable{document}{title}}}}}}
 \define\rfoot{{\expanded{\footers[rightframe=on]{\small\grisoscuro{\getmarking[chapter]}}}}{\footers[leftframe=on,loffset=2pt,roffset=-2pt]{\small\osf{\pagenumber}}}}
 
-% Activar configuraciones generales
+% Activar configuraciones generales de encabezados y pies
 \setupheadertexts[][][][]
 \setupfootertexts[][\rfoot][\lfoot][]
 
-% Configuración de pies de página para frontpart
+% Configuración de pies de página para frontpart (sin pies)
 \startsectionblockenvironment[frontpart]
   \setupfootertexts[][][][]
 \stopsectionblockenvironment
 
-% Listas %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% ELEMENTOS DE CONTENIDO
+% ============================================================================
+% Configuración de listas, descripciones, notas al pie y bibliografía
 
 % Macro para encabezados de descripciones
 \define[1]\termino{#1~}
@@ -350,7 +407,7 @@
   margin=2em,
 ]
 
-% Configuración de listas
+% Configuración de listas con viñetas
 \setupitemize[itemalign=left,distance=.5em]
 
 % Macro para números de notas al pie
@@ -364,21 +421,24 @@
 % Configuración de anotaciones al pie de página
 \setupnotation[footnote]
    [align={flushleft,nothyphenated,verytolerant},
-   numbercommand=\FNo] % footnote text
+   numbercommand=\FNo]
 
 % Configuración de listas enumeradas
 \defineitemgroup[enumerate]
 \setupenumerate[each][fit][itemalign=left,distance=.5em,style={\feature[+][default:tnum]}]
 
-% Bibliografía manual
+% Configuración de bibliografía manual
 \defineitemgroup[bibliografia]
 \setupbibliografia[each][n,loose][symalign={left},distance={0.5em},align={right,nothyphenated},left={[},right={]},stopper=,inbetween={\blank[0.5em]}]
 
-% TDC %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% TABLA DE CONTENIDO Y LISTAS
+% ============================================================================
+% Configuración de tabla de contenido, listas de figuras y tablas
 
-%% Añadir autores de capítulo a la lista TOC
-%% Se agregan autores como un par adicional de corchetes en el título, ejemplo:
-%% \startchapter[title={Something}][autores={{John Smith, MD},{Micke Stronberg, MD},{Uma Thurman, MD}}]
+% Añadir autores de capítulo a la lista TOC
+% Se agregan autores como un par adicional de corchetes en el título, ejemplo:
+% \startchapter[title={Something}][autores={{John Smith, MD},{Micke Stronberg, MD},{Uma Thurman, MD}}]
 \newdimen\ChapterEntryWidth
 \ChapterEntryWidth=16pt
 \define[1]\SectionTocEntry{%
@@ -406,8 +466,12 @@
 % Crear lista de tablas que contenga table, righttable y lefttable
 \definecombinedlist[tablas][table,righttable,lefttable][alternative=c]
 
-% Configuración de marcos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% MARCOS Y ELEMENTOS VISUALES
+% ============================================================================
+% Configuración de marcos, cajas y elementos decorativos
 
+% Configuración general de marcos de texto
 \setupframedtexts[
   width={\makeupwidth},
   background=color,
@@ -421,6 +485,7 @@
   backgroundoffset=0.3em,
 ]
 
+% Marco lateral con borde izquierdo
 \defineframed[lateral][
   frame=off,
   leftframe=on,
@@ -431,6 +496,7 @@
   frameoffset=10pt,
 ]
 
+% Marco para páginas legales
 \defineframed[legal][
   frame=off,
   strut=yes,
@@ -440,13 +506,16 @@
   setups={document:legal},
 ]
 
-% Flotantes %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% FLOTANTES Y FIGURAS
+% ============================================================================
+% Configuración de figuras, tablas y elementos flotantes
 
 % Separación de flotantes
 \setuplabeltext[es][continued={ (continuación)}]
 \setupfloatsplitting[conversion=continued]
 
-% Logotipos
+% Configuración de logotipos
 \defineexternalfigure[logotipo][maxwidth=.4\textwidth]
 
 % Ubicación por defecto de flotantes
@@ -515,7 +584,10 @@
 \definereferenceformat[tabla][text={tabla~}]
 \definereferenceformat[simple][text={}]
 
-% Configuración de tablas %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% CONFIGURACIÓN DE TABLAS
+% ============================================================================
+% Configuración de tablas con xtables y TABLE
 
 % Configuración de xtables
 \setupxtable[
@@ -531,6 +603,7 @@
 \setupxtable[body][bottomframe=on]
 \setupxtable[foot][bottomframe=on]
 
+% Tabla simple sin marcos
 \definextable[simple]
 \setupxtable[simple][frame=off,topframe=off,bottomframe=off]
 
@@ -540,19 +613,33 @@
 \setupTABLE[row][1][style={\small\bf},rulethickness=0.6pt]
 \setupTABLE[row][last][bottomframe=on]
 
-% Autoría para tablas y figuras %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% AUTORÍA PARA TABLAS Y FIGURAS
+% ============================================================================
+% Comandos para especificar fuentes y autoría de elementos gráficos
 
+% Comandos para fuentes de tablas (sin "Fuente:")
 \define[1]\fuentent{\start\setupalign[middle,nothyphenated,verytolerant,stretch]\switchtobodyfont[8pt]#1\par\stop}
 \define[1]\fuente{\start\setupalign[middle,nothyphenated,verytolerant,stretch]\switchtobodyfont[8pt]\emph{Fuente:}~#1\par\stop}
+
+% Comandos para fuentes de xtables (sin "Fuente:")
 \define[1]\xfuentent{\start\setupalign[middle,nothyphenated,verytolerant,stretch]#1\par\stop}
 \define[1]\xfuente{\start\setupalign[middle,nothyphenated,verytolerant,stretch]\emph{Fuente:}~#1\par\stop}
+
+% Comandos para fuentes de figuras
 \define[1]\fuentefignt{\par\blank[2pt]\start\switchtobodyfont[8pt]#1\par\stop}
 \define[1]\fuentefig{\par\blank[2pt]\start\switchtobodyfont[8pt]\emph{Fuente:}~#1\par\stop}
+
+% Comandos predefinidos para elaboración propia
 \define\propia{\fuentefig{elaboración propia.}}
 \define\propiat{\fuente{elaboración propia.}}
 
-% Makeups %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% MAKEUPS Y PÁGINAS ESPECIALES
+% ============================================================================
+% Configuración de layouts y makeups para páginas especiales del libro
 
+% Layout y makeup para antetítulo
 \definelayout [antetitulo]
               [topspace=0.5in]
 
@@ -565,6 +652,7 @@
                footerstate=empty,
                pagestate=start]
 
+% Layout y makeup para portadilla
 \definelayout [portadilla]
               [header=\zeropoint,
                footer=\zeropoint,
@@ -578,6 +666,7 @@
                footerstate=empty,
                pagestate=start]
 
+% Layout y makeup para páginas legales
 \definelayout [legal]
               [header=3.5cm]
 
@@ -588,11 +677,13 @@
                bottom=,
                pagestate=start]
 
+% Makeup para colofón
 \definemakeup [colofon]
               [align=center,
                doublesided=no,
                page=left]
 
+% Makeup para dedicatoria
 \definemakeup [dedicatoria]
               [align={flushright,nothyphenated,verytolerant},
                doublesided=no,
@@ -602,7 +693,10 @@
                footerstate=empty,
                pagestate=start]
 
-% Namespaces %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% GESTIÓN DE AUTORES Y COLABORADORES
+% ============================================================================
+% Namespaces y comandos para manejo de información de autores y colaboradores
 
 % Registro de colaboradores
 \definenamespace[colaboradores][
@@ -631,6 +725,7 @@
   \doifsomething{\colaboradorparameter{nombre}}{\colaboradorparameter{nombre}}%
 }}
 
+% Definición para mostrar nombre completo de autor
 \starttexdefinition AutorNombreApellido #1
     \edef\currentautor{#1}%
     \unless\ifempty{\autorparameter{nombres}}
@@ -642,12 +737,12 @@
     \fi
 \stoptexdefinition
 
+% Definición para lista horizontal de autores
 \starttexdefinition AutorEnListaH #1
      \advance\scratchcountertwo\plusone
      \ifnum\scratchcountertwo=\plusone
          % nothing
      \orelse\ifnum\scratchcountertwo=\scratchcounterone
-         %\space\letterampersand\space
          \space{y}\space
      \else
          ,\space
@@ -662,6 +757,7 @@
      \processcommacommand[#1]\AutorEnListaH
 \stoptexdefinition
 
+% Definición para lista vertical de autores
 \starttexdefinition AutorEnListaV #1
      \AutorNombreApellido{#1}\par
 \stoptexdefinition
@@ -670,8 +766,12 @@
      \processcommacommand[#1]\AutorEnListaV
 \stoptexdefinition
 
-% Buffers %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% BUFFERS Y CONTENIDO PREDEFINIDO
+% ============================================================================
+% Buffers con contenido predefinido para páginas especiales
 
+% Buffer para información editorial
 \startbuffer[editorial]
   \documentvariable{editorial}\\
   \documentvariable{editorialDireccion}
@@ -680,6 +780,7 @@
   \texthref{\documentvariable{editorialEmail}}{mailto:\documentvariable{editorialEmail}}
 \stopbuffer
 
+% Buffer para página legal izquierda
 \startbuffer[legalizquierda]
   Reservados todos los derechos\\
   ©~\documentvariable{copyright}\\
@@ -699,12 +800,14 @@
   \getbuffer[editorial]
 \stopbuffer
 
+% Buffer para página legal derecha
 \startbuffer[legalderecha]
   \processcommacommand[\documentvariable{colaboradores}]\Colaborador
   \blank[2*big]
     \documentvariable{reconocimiento}
 \stopbuffer
 
+% Buffer para ficha catalográfica
 \startbuffer[catalografica]
   \start
     \setupalign[middle,nothyphenated,verytolerant]
@@ -731,6 +834,7 @@
   inp \hfill \documentvariable{inp}
 \stopbuffer
 
+% Buffer para colofón
 \startbuffer[colofon]
   Este libro se compuso\\
   usando tipos Erewhon, \\
@@ -741,12 +845,17 @@
   en \documentvariable{fecha}.
 \stopbuffer
 
-% Setups %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% SETUPS DE DOCUMENTO
+% ============================================================================
+% Configuraciones automáticas para inicio y fin del documento
 
+% Setup para páginas legales
 \startsetups[document:legal]
   \switchtobodyfont[8pt]
 \stopsetups
 
+% Setup para inicio del documento
 \startsetups[document:start]
   \startmakeup[antetitulo]
     \start\bf\raggedleft\dontleavehmode\switchtobodyfont[14pt]\documentvariable{titulo}\\\switchtobodyfont[11pt]\documentvariable{subtitulo}\stop
@@ -788,13 +897,17 @@
   \stopmakeup
 \stopsetups
 
+% Setup para fin del documento
 \startsetups[document:stop]
   \startmakeup[colofon]
       \getbuffer[colofon]
   \stopmakeup
 \stopsetups
 
-% Macros adicionales %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% ============================================================================
+% MACROS ADICIONALES Y FILTROS
+% ============================================================================
+% Comandos auxiliares y filtros externos para funcionalidad extendida
 
 % ConTeXt logo con enlace
 \define\CONTEXTLINK{\texthref{\CONTEXT}{https://context.aanhet.net/}}
@@ -810,8 +923,7 @@
 \define\unamas{\adaptlayout[lines=+1]}
 \define\dosmas{\adaptlayout[lines=+2]}
 
-% Filtros externos %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+% Filtros externos
 \usemodule[filter]
 
 % Markdown: introducir código markdown directamente entre \startmarkdown..\stopmarkdown
