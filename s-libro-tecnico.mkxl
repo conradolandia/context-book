@@ -4,7 +4,7 @@
 %C Copyright (c) 2025 Andrés Conrado Montoya Acosta (github.com/conradolandia)
 %C andi@sesentaycuatro.com | sesentaycuatro.com
 %C Creado con ConTeXt LMTX (https://wiki.contextgarden.net/)
-%C Versión: 0.0.2
+%C Versión: 0.1.0
 %C Licencia: MIT
 %C
 %C Este módulo proporciona estilos y configuraciones para la composición de
@@ -320,28 +320,28 @@
 % Estilos y configuraciones para todos los niveles de seccionado
 
 % Configuración de partes
-\setuphead[part]
-          [placehead=yes,
-          beforesection=\directsetup{chapter:before},
-          number=no,
-          align={flushright,nothyphenated,verytolerant},
-          style={\bfd},
-          deeptextcommand={\versalita},
-          header=empty,
-          before=\startpartmakeup,
-          after=\stoppartmakeup]
+\setuphead[part][
+  placehead=yes,
+  beforesection=\directsetup{chapter:before},
+  number=no,
+  align={flushright,nothyphenated,verytolerant},
+  style={\bfd},
+  deeptextcommand={\versalita},
+  header=empty,
+  before=\startpartmakeup,
+  after=\stoppartmakeup,
+]
 
 % Configuración de capítulos
-\setuphead[chapter]
-          [align={flushright,nothyphenated,verytolerant},
-          beforesection=\directsetup{chapter:before},
-          number=yes,
-          style=\bfb,
-          header=empty,
-          textwidth=0.8\textwidth,
-          before={\dontleavehmode\blank[5pt]\hfill},
-          deepnumbercommand={\chapterNumber},
-          after=\directsetup{chapter:after}]
+\setuphead[chapter][
+  align={flushright,nothyphenated,verytolerant},
+  beforesection=\directsetup{chapter:before},
+  number=yes,
+  style=\bfc,
+  header=empty,
+  deepnumbercommand={\chapterNumber},
+  after=\directsetup{chapter:after},
+]
 
 % Configuración de capítulos sin numerar y títulos
 \setuphead[sinnumerar,title]
@@ -640,58 +640,73 @@
 % Configuración de layouts y makeups para páginas especiales del libro
 
 % Layout y makeup para antetítulo
-\definelayout [antetitulo]
-              [topspace=0.5in]
+\definelayout [antetitulo][topspace=0.5in]
 
-\definemakeup [antetitulo]
-              [align={flushright,nothyphenated,verytolerant},
-               doublesided=no,
-               page=right,
-               top=,
-               headerstate=empty,
-               footerstate=empty,
-               pagestate=start]
+\definemakeup [antetitulo][
+  align={flushright,nothyphenated,verytolerant},
+  doublesided=no,
+  page=right,
+  top=,
+  headerstate=empty,
+  footerstate=empty,
+  pagestate=start,
+]
 
 % Layout y makeup para portadilla
-\definelayout [portadilla]
-              [header=\zeropoint,
-               footer=\zeropoint,
-               topspace=1in]
+\definelayout [portadilla][
+  header=\zeropoint,
+  footer=\zeropoint,
+  topspace=1in,
+]
 
-\definemakeup [portadilla]
-              [align={flushright,nothyphenated,verytolerant},
-               doublesided=no,
-               page=right,
-               headerstate=empty,
-               footerstate=empty,
-               pagestate=start]
+\definemakeup [portadilla][
+  align={flushright,nothyphenated,verytolerant},
+  doublesided=no,
+  page=right,
+  headerstate=empty,
+  footerstate=empty,
+  pagestate=start,
+]
 
 % Layout y makeup para páginas legales
-\definelayout [legal]
-              [header=3.5cm]
+\definelayout [legal][header=3.5cm]
 
-\definemakeup [legal]
-              [doublesided=no,
-               page=left,
-               top=,
-               bottom=,
-               pagestate=start]
+\definemakeup [legal][
+  doublesided=no,
+  page=left,
+  top=,
+  bottom=,
+  pagestate=start,
+]
 
 % Makeup para colofón
-\definemakeup [colofon]
-              [align=center,
-               doublesided=no,
-               page=left]
+\definelayout [colofon][
+  width=17cm,
+  height=24cm,
+  backspace=\zeropoint,
+  topspace=\zeropoint,
+  header=\zeropoint,
+  footer=\zeropoint,
+]
+
+\definemakeup [colofon][
+  align=center,
+  doublesided=no,
+  headerstate=empty,
+  footerstate=empty,
+  page=left,
+]
 
 % Makeup para dedicatoria
-\definemakeup [dedicatoria]
-              [align={flushright,nothyphenated,verytolerant},
-               doublesided=no,
-               page=right,
-               style={\italic},
-               headerstate=empty,
-               footerstate=empty,
-               pagestate=start]
+\definemakeup [dedicatoria][
+  align={flushright,nothyphenated,verytolerant},
+  doublesided=no,
+  page=right,
+  style={\italic},
+  headerstate=empty,
+  footerstate=empty,
+  pagestate=start,
+]
 
 % ============================================================================
 % GESTIÓN DE AUTORES Y COLABORADORES
