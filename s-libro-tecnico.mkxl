@@ -4,7 +4,7 @@
 %C Copyright (c) 2025 Andrés Conrado Montoya Acosta (github.com/conradolandia)
 %C andi@sesentaycuatro.com | sesentaycuatro.com
 %C Creado con ConTeXt LMTX (https://wiki.contextgarden.net/)
-%C Versión: 0.1.4
+%C Versión: 0.1.6
 %C Licencia: MIT
 %C
 %C Este módulo proporciona estilos y configuraciones para la composición de
@@ -33,6 +33,10 @@
 \definemode[pdfa][keep]      % PDF/A para archivo
 \definemode[imprenta][keep]  % Modo imprenta con marcas de corte
 \definemode[pantalla][keep]  % Modo pantalla (por defecto)
+
+% Añadir comentarios al pdf (reslatado magenta)
+\enabledirectives[backend.pdf.fixhighlight]
+\definecolor[pdfhighlight:Andi][r=1,g=.6,b=1]
 
 % ============================================================================
 % CONFIGURACIÓN DE IDIOMA
@@ -65,6 +69,35 @@
 \hyphenation{muscu-la-tura}
 \hyphenation{ana-tómi-cos}
 \hyphenation{or-tope-dia}
+
+% Particion de cadenas largas que no tiene puntos logicos de particion
+% como secuencias genéticas
+\startluacode
+    local shared = {
+        start  = 1,
+        length = 1,
+        before = nil,
+        after  = nil,
+        left   = false,
+        right  = false,
+    }
+
+    local all = table.setmetatableindex({ }, function(t,k)
+        return shared
+    end)
+
+    languages.hyphenators.traditional.installmethod("dna",
+        function(dictionary,word,n)
+            return all
+        end
+    )
+\stopluacode
+\definehyphenationfeatures[dna][characters=all,alternative=dna]
+
+\startsetups[dna]
+  \sethyphenationfeatures[dna]
+  \setuphyphenation[method=traditional]
+\stopsetups
 
 % ============================================================================
 % SISTEMA DE COLORES
@@ -140,8 +173,8 @@
 \setupcapitals[sc=yes]
 
 % Espaciado y sangrías
-\setupwhitespace[medium]
 \setupindenting[no]
+\setupwhitespace[medium]
 
 % Espacios horizontales predefinidos
 \definehspace[dosem][2em]
@@ -276,7 +309,7 @@
 \def\doAutorCapitulo[#1]#2{%
   \start\switchtobodyfont[10pt]%
   \doifsomethingelse{#1}
-    {\emph{#2}\\\switchtobodyfont[8pt] #1}
+    {\emph{#2}\crlf\switchtobodyfont[8pt] #1}
     {\emph{#2}}
   \stop\par%
 }
@@ -286,18 +319,6 @@
 
 % Macro para números de capítulo terminados en punto
 \def\chapterNumber#1{#1.}
-
-% Capítulos no numerados pero que aparecen en la ToC
-\definehead[sinnumerar][chapter]
-\setuphead[sinnumerar][incrementnumber=list]
-
-% Configuración general para seccionado
-\setuphead[
-  section,subsection,
-  subsubsection,
-  subsubsubsection,
-  subsubsubsubsection,
-][number=no,align={flushleft,nothyphenated,verytolerant,stretch}]
 
 % Estilos de capítulo y secciones
 \startsetups[chapter:before]
@@ -330,7 +351,7 @@
   beforesection=\directsetup{chapter:before},
   number=no,
   align={flushright,nothyphenated,verytolerant},
-  style={\bfd},
+  style={\bfc},
   deeptextcommand={\versalita},
   header=empty,
   before=\startpartmakeup,
@@ -341,12 +362,24 @@
 \setuphead[chapter][
   align={flushright,nothyphenated,verytolerant},
   beforesection=\directsetup{chapter:before},
-  number=yes,
+  number=no,
   style=\bfb,
   header=empty,
   deepnumbercommand={\chapterNumber},
   after=\directsetup{chapter:after},
 ]
+
+% Capítulos no numerados pero que aparecen en la ToC
+\definehead[sinnumerar][chapter]
+\setuphead[sinnumerar][incrementnumber=list]
+
+% Configuración general para seccionado
+\setuphead[
+  section,subsection,
+  subsubsection,
+  subsubsubsection,
+  subsubsubsubsection,
+][number=no,align={flushleft,nothyphenated,verytolerant,stretch}]
 
 % Configuración de capítulos sin numerar y títulos
 \setuphead[sinnumerar,title][after={\blank[8*line]}]
@@ -458,7 +491,7 @@
 
 % Configuración de bibliografía manual
 \defineitemgroup[bibliografia]
-\setupbibliografia[each][n,loose][symalign={left},distance={0.5em},align={right,nothyphenated},left={[},right={]},stopper=,inbetween={\blank[0.5em]}]
+\setupbibliografia[each][n,loose][itemalign={flushright},width={2.4em},distance={0.5em},align={right,nothyphenated,verytolerant,stretch},left={(},right={)},stopper=,inbetween={\blank[0.5em]}]
 
 % ============================================================================
 % TABLA DE CONTENIDO Y LISTAS
@@ -472,12 +505,12 @@
 \ChapterEntryWidth=16pt
 \define[1]\SectionTocEntry{%
   #1\doifsomething{\rawstructurelistuservariable{autores}}{%
-    \crlf
+    \par
     \start
       \setupalign[flushleft,nothyphenated,verytolerant]
       \switchtobodyfont[9pt]
       \hskip\ChapterEntryWidth
-      \commalistsentence[\rawstructurelistuservariable{autores}][{,\space},{\space y~}]
+      \framed[frame=off,offset=0pt,width={.7\textwidth},align={flushleft,nothyphenated,verytolerant,stretch}]{\commalistsentence[\rawstructurelistuservariable{autores}][{,\space},{\space y~}]}
     \stop%
   }
 }
@@ -541,7 +574,7 @@
 % Configuración de figuras, tablas y elementos flotantes
 
 % Separación de flotantes
-\setuplabeltext[es][continued={ (continuación)}]
+\setuplabeltext[es][continued={~(continuación)}]
 \setupfloatsplitting[conversion=continued]
 
 % Configuración de logotipos
@@ -556,7 +589,7 @@
   width=max,
   prefix=yes,
   way=bychapter,
-  prefixsegments=chapter,
+  prefixsegments=none,
   headstyle={\tf},
   suffixseparator={.},
   distance={.5em},
@@ -565,7 +598,7 @@
 ]
 
 % Configuración de títulos de tablas
-\setupcaption[table][location=top]
+\setupcaption[table][location=top,prefixsegments=chapter]
 
 % Figuras a la izquierda
 \definefloat[leftfigure][leftfigures][figure]
@@ -607,7 +640,7 @@
 \definefloat[autor][autores][figure]
 \setupfloat[autor][sidealign=line]
 \setupcaption[autor][location=none]
-\defineexternalfigure[autor][width=2cm]
+\defineexternalfigure[tabla][width=2cm]
 
 % Formatos de referencia
 \definereferenceformat[figura][text={figura~}]
@@ -619,48 +652,41 @@
 % ============================================================================
 % Configuración de tablas con xtables y TABLE
 
-% Configuración de xtables
-\setupxtable[
-  frame=off,
-  rulethickness=0.2pt,
-  framecolor=grismedio,
-  option=stretch,
-  bodyfont=small,
-  foregroundstyle={\tabular},
-]
-
-\setupxtable[head][topframe=on,bottomframe=on,foregroundstyle=bold]
-\setupxtable[body][bottomframe=on]
-\setupxtable[foot][bottomframe=on]
-
-% Tabla simple sin marcos
-\definextable[simple]
-\setupxtable[simple][frame=off,topframe=off,bottomframe=off]
-
 % Configuración de TABLE
-\setupTABLE[frame=off,style=small]
-\setupTABLE[row][topframe=on,bottomframe=on,style=small,rulethickness=0.3pt]
-\setupTABLE[row][1][style={\small\bf},rulethickness=0.6pt]
-\setupTABLE[row][last][bottomframe=on]
+\setupTABLE[frame=off,style={\switchtobodyfont[8pt]},headstyle={\switchtobodyfont[8pt]\bf},option=stretch]
+\setupTABLE[r][first][rulethickness=0.6pt,bottomframe=on,topframe=on]
+\setupTABLE[r][each][bottomframe=on,rulethickness=0.3pt]
+\setupTABLE[c][each][align={flushleft,nothyphenated,verytolerant,stretch}]
+\setupTABLE[r][last][rulethickness=0.6pt]
 
 % ============================================================================
 % AUTORÍA PARA TABLAS Y FIGURAS
 % ============================================================================
 % Comandos para especificar fuentes y autoría de elementos gráficos
 
-% Comandos para fuentes de figuras/tablas (sin "Fuente:")
-\define[1]\fuentent{\start\setupalign[middle,nothyphenated,verytolerant,stretch]\switchtobodyfont[8pt]#1\stop}
-\define[1]\xfuentent{\start\setupalign[middle,nothyphenated,verytolerant,stretch]#1\stop}
-\define[1]\fuentefignt{\par\blank[2pt]\start\switchtobodyfont[8pt]#1\stop}
-
 % Comandos para fuentes de figuras/tablas (con "Fuente:")
-\define[1]\fuente{\startframed[strut=no,frame=off,align=middle,width=max]\switchtobodyfont[8pt]\emph{Fuente:}~#1\stopframed}
-\define[1]\xfuente{\start\setupalign[middle,nothyphenated,verytolerant,stretch]\emph{Fuente:}~#1\stop}
-\define[1]\fuentefig{\par\blank[2pt]\start\switchtobodyfont[8pt]\emph{Fuente:}~#1\stop}
+\define\fuentelabel{\emph{Fuente:}~}
+
+\startsetups[ochopuntos]
+  \switchtobodyfont[8pt]
+\stopsetups
+
+\defineframed[ochopuntos][setups=ochopuntos,strut=no,frame=off,offset=\zeropoint]
+\defineframed[nota][ochopuntos][align={flushleft,nothyphenated,verytolerant,stretch},width=max]
+\defineframed[fuente][ochopuntos][align=middle,width=max,toffset={.5\baselineskip}]
+\defineframed[left][ochopuntos][align={flushleft,nothyphenated,verytolerant,stretch},width=max,toffset={.5\baselineskip}]
+
+% TODO: ARREGLAR ESTAS MACROS - SON MUY DEBILES
+\define\nota{\dosingleempty\donota}
+\unexpanded\def\donota[#1]#2{\doifsomethingelse{#1}{\startframed[#1]#2\stopframed}{\startframed[fuente]\fuentelabel#2\stopframed}}
+\let\fuente\nota
 
 % Comandos predefinidos para elaboración propia
-\define\propia{\fuentefig{elaboración propia.}}
 \define\propiat{\fuente{elaboración propia.}}
+
+% Macros para construir figuras con fuente
+\define[4]\figuraconfuente{\startplacefigure[title={#2\par\fuente{#3}},reference={#1},location=force]#4\stopplacefigure}
+\define[4]\figuraconfuentenoforced{\startplacefigure[title={#2\par\fuente{#3}},reference={#1}]#4\stopplacefigure}
 
 % ============================================================================
 % MAKEUPS Y PÁGINAS ESPECIALES
@@ -966,6 +992,8 @@
 % Macros para acomodar líneas extra
 \define\unamas{\adaptlayout[lines=+1]}
 \define\dosmas{\adaptlayout[lines=+2]}
+\define\unamenos{\adaptlayout[lines=-1]}
+\define\dosmenos{\adaptlayout[lines=-2]}
 
 % Filtros externos
 \usemodule[filter]
